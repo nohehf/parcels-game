@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { transform } from "@babel/core";
 
 interface Props {
   parcel: Parcel;
@@ -18,7 +19,8 @@ const GridParcel: React.FC<Props> = ({ parcel }) => {
         <img
           src={parcel.img}
           alt=""
-          className={`rotate-${parcel.rotation} w-[100px]`}
+          className={`w-[100px]`}
+          style={{ transform: `rotate(${parcel.rotation}deg)` }}
         />
       </Link>
     </div>
