@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { transform } from "@babel/core";
 
 interface Props {
   parcel: Parcel;
@@ -11,7 +12,7 @@ interface Parcel {
   id: string;
 }
 
-const GridParcel: React.FC<Props> = ({ parcel }) => {
+const Cloud: React.FC<Props> = ({ parcel }) => {
   return (
     <div>
       <Link href={`/parcel/${parcel.id}`}>
@@ -26,4 +27,4 @@ const GridParcel: React.FC<Props> = ({ parcel }) => {
   );
 };
 
-export default GridParcel;
+export default Cloud;

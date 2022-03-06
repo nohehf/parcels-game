@@ -10,7 +10,7 @@ module.exports = {
         beige: "#D0D2BE",
       },
       fontFamily: {
-        unifraktur: ["UnifrakturCook", "normal"],
+        unifraktur: ["UnifrakturCook", "cursive"],
         almendra: ["Almendra"],
       },
     },
