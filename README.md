@@ -1,39 +1,63 @@
-# Repo architecture:
--> Front : root. 
--> Solidity / hardhat : ./hardhat. 
+# Get started
 
+1. Clone the repo and cd into it `git clone https://github.com/knit-dev/hardhat-next-boilerplate.git MyProject && cd MyProject`
+2. Install deps with yarn `yarn` or npm `npm install`
+3. Start hardhat `npx hardhat node --watch`
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![](https://media.giphy.com/media/9l6z9MzXfHX9gKzbvU/giphy.gif)
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
+```text
+It runs up a Hardhat node, compile contracts, generates typescript interfaces, creates React context and instantiates your contract instances and factories with frontend provider.
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open up a new terminal
+5. Enter the frontend-next directory: `cd frontend-next`
+6. Install dependencies: `npm install`
+7. Import seed phrase in Metamask. The default mnemonic currently used by hardhat is `test test test test test test test test test test test junk`
+8. Please note that you need to sign out from your current Metamask wallet to import a new one. **Instead of logging out**, you can use a new browser profile to do your Ethereum development:
+9. Click your profile icon in the top right corner of Chrome (right next to the hamburger menu icon)
+10. Click "Add"
+11. Give the profile a name and click "Add"
+12. In this new browser window, install Metamask and import the keyphrase above
+13. Ensure Metamask RPC is set to `http://localhost:8545` and chainID `31337`.
+14. Start the React app: `npm run dev`
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+The frontend should open at http://localhost:3000/
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Because of this default hardhat.config.ts it will first try to connect with an injected provider like Metamask (web3modal package does this).
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+If nothing found it will try to connect with your hardhat node. On localhost and hardhat nodes it will inject your mnemonic into the frontend so you have a "browser wallet" that can both call and send transactions. NB! Dont ever put a mnemonic with actual value here.
 
-## Learn More
+In hardhat.config.ts there is example on how to instruct your hardhat-network to use mnemonic or privatekey.
 
-To learn more about Next.js, take a look at the following resources:
+```ts
+const config: HardhatUserConfig = {
+  react: {
+    providerPriority: ['web3modal', 'hardhat'],
+  },
+};
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Ensure you are useing RPC to http://localhost:8545.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+You may also need to set the chainID to 31337 if you are useing Hardhat blockchain development node.
 
-## Deploy on Vercel
+## Invalid nonce.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+eth_sendRawTransaction
+  Invalid nonce. Expected X but got X.
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Reset your account in Metamask.
+
+# We ❤️ these **Ethereum** projects:
+
+- [Hardhat 👷](https://hardhat.org/)
+- [Hardhat-deploy 🤘](https://hardhat.org/plugins/hardhat-deploy.html)
+- [Typechain 🔌](https://github.com/ethereum-ts/Typechain#readme)
+- [hardhat-typechain 🧙‍♀️](https://hardhat.org/plugins/hardhat-typechain.html)
+- [ethers.js v5 ⺦](https://github.com/ethers-io/ethers.js#readme)
+- [web3modal 💸](https://github.com/Web3Modal/web3modal#web3modal)
+- [ts-morph 🏊‍♂️](https://github.com/dsherret/ts-morph)
+- [@symfoni/hardhat-react 🎻(our own)](https://www.npmjs.com/package/@symfoni/hardhat-react)
