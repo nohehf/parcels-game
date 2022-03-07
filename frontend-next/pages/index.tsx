@@ -17,8 +17,8 @@ const Home: NextPage = () => {
         backgroundSize: "cover",
       }}
     >
-      <h1 className="text-7xl m-10 font-unifraktur drop-shadow-lg">
-        Parcel <span className="font-sans text-3xl align-top">™️</span>
+      <h1 className="text-5xl m-10 font-unifraktur drop-shadow-lg">
+        Parcel <span className="font-sans text-xl align-top">™️</span>
       </h1>
       <div className="w-fit p-5 rounded-xl bg-beige">
         <Grid />
