@@ -26,7 +26,7 @@ const Parcel: NextPage = (params) => {
           parcel n°
           {" " + router.query.id}
         </h1>
-        <div className="h-3/4 border-4">
+        <div className="h-3/4 mx-2">
           <Viewer3dNoSSR file="/parcel3d.glb" />
         </div>
         <div className="flex justify-between p-5">

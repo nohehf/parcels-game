@@ -14,10 +14,12 @@ interface Props {
   callback: () => void;
 }
 
+// TODO: séparer en 3 menus, et importer les 3 menus ici
+
 const dummyInventory: IComposable[] = [castle, farm];
 
 const menus = [
-  { name: "Inventaire", act: action.BUILD },
+  { name: "Inventory", act: action.BUILD },
   { name: "Craft", act: action.CRAFT },
   { name: "Remove", act: action.REMOVE },
 ];
@@ -27,8 +29,11 @@ const ComposableMenu: React.FC<Props> = ({ name }) => {
   const [menuIndex, setMenuIndex] = useState(0);
 
   const changeMenu = async (forward: boolean) => {
-    await setMenuIndex((forward ? menuIndex + 1 : menuIndex - 1) % 3);
-    setMenu(menus[menuIndex]);
+    const newMenuIndex = forward
+      ? Math.abs(menuIndex + 1) % 3
+      : Math.abs(menuIndex - 1) % 2;
+    setMenu(menus[newMenuIndex]);
+    setMenuIndex(newMenuIndex);
   };
 
   return (
@@ -60,7 +65,7 @@ const ComposableMenu: React.FC<Props> = ({ name }) => {
           <ComposableItem
             key={index}
             composable={item}
-            action={action.BUILD}
+            action={menu.act}
             display={display.MIN}
           ></ComposableItem>
         );
