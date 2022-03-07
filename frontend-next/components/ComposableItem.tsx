@@ -11,6 +11,8 @@ interface Props {
 const buttonColor = (Action: action) => {
   if (Action === action.REMOVE) {
     return "bg-red-400";
+  } else if (Action === action.BUILD) {
+    return "bg-purple-400";
   } else {
     return "bg-orange-400";
   }
