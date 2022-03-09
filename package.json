@@ -30,6 +30,7 @@
   "author": "Jeremy Tong",
   "license": "MIT",
   "dependencies": {
-    "fs-extra": "^10.0.0"
+    "fs-extra": "^10.0.0",
+    "react-query": "^3.34.16"
   }
 }
