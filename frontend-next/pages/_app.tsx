@@ -2,9 +2,44 @@ import "../styles/globals.css";
 import "../styles/index.css";
 
 import type { AppProps } from "next/app";
+import Nav from "../components/Nav";
+
+import { QueryClient, QueryClientProvider, QueryCache } from "react-query";
+import { Provider as WagmiProvider } from "wagmi";
+import { Toaster, toast } from "react-hot-toast";
+import { providers } from "ethers";
+
+// Provider that will be used when no wallet is connected (aka no signer)
+const provider = providers.getDefaultProvider("http://localhost:8545");
+
+// Create a react-query client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+  queryCache: new QueryCache({
+    onError: () => {
+      toast.error(
+        "Network Error: Ensure MetaMask is connected to the same network that your contract is deployed to."
+      );
+    },
+  }),
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <WagmiProvider autoConnect provider={provider}>
+      <QueryClientProvider client={queryClient}>
+        <div className="">
+          <Nav />
+          <Component {...pageProps} />
+          <Toaster />
+        </div>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
 }
 
 export default MyApp;
