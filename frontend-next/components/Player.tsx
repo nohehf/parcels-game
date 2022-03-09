@@ -9,7 +9,7 @@ const Player: React.FC<Props> = ({}) => {
   const playerQuery = usePlayer();
   return (
     <div className="p-5 bg-white text-black flex flex-wrap justify-between font-almendra text-xl">
-      Wallet: {data?.address.substring(0, 10)}....
+      Wallet: {data?.address.substring(0, 4)}....{data?.address.substring(42-4)}
       <Res amount={playerQuery.data}></Res>
     </div>
   );
