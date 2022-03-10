@@ -4,6 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 
@@ -11,7 +12,7 @@ import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 import "./RewardToken.sol";
 import "./ItemToken.sol";
 
-contract Parcel is Ownable, ERC721URIStorage, ERC1155Holder {
+contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155Holder {
     using Counters for Counters.Counter;
     
     Counters.Counter internal _ParcelTokenIds;
@@ -182,13 +183,13 @@ contract Parcel is Ownable, ERC721URIStorage, ERC1155Holder {
         return _isApprovedOrOwner(_spender, posToId[_posX][_posY]);
     }
     function _isItemMaximumPolicyRespected(uint _posX, uint _posY, uint _kind, uint _tokenId) internal view returns (bool) {
-        uint itemQuantity = _getItemQuantity(_posX, _posY, _tokenId);
+        uint itemQuantity_ = _getItemQuantity(_posX, _posY, _tokenId);
         uint kindQuantity = _getKindQuantity(_posX, _posY, _kind);
         uint itemQuota = _getItemQuota(_tokenId);
         if (itemQuota == 0) {
             return (kindQuantity==0);
         } else {
-            return (itemQuantity<itemQuota);
+            return (itemQuantity_<itemQuota);
         }
     }
     ////////////////////////////////////////////////////////////
@@ -254,8 +255,19 @@ contract Parcel is Ownable, ERC721URIStorage, ERC1155Holder {
     ////////////////////////////////////////////////////////////
     /////////////////////////// Utils //////////////////////////
     // Fix overriding issue
-    function supportsInterface(bytes4 interfaceId)
-    public view virtual override(ERC721, ERC1155Receiver) returns (bool) {
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal override(ERC721, ERC721Enumerable) {
+        super._beforeTokenTransfer(from, to, tokenId);
+    }
+
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+        super._burn(tokenId);
+    }
+
+    function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
+        return super.tokenURI(tokenId);
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable, ERC1155Receiver) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
     // Encode bytes to uint ??? abi.encode ,, abi.decode ??
