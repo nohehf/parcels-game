@@ -33,15 +33,14 @@ async function main() {
 
   const [owner] = await hre.ethers.getSigners();
 
-  console.log(owner.getAddress());
+  console.log("parcel owner: " + (await owner.getAddress()));
 
-  console.log("Parcel contract deployed to:", parcelContract.address);
-
-  console.log("$RES contract", await parcelContract.rewardGetContract());
+  console.log("Copy paste the following in ./next_frontend/settings.ts: \n");
 
   console.log(
-    "Item (composable) contract",
-    await parcelContract.itemGetContract()
+    `export const parcelContractAddress = "${
+      parcelContract.address
+    }" \nexport const itemsContractAddress = "${await parcelContract.itemGetContract()}" \nexport const resContractAddress = "${await parcelContract.rewardGetContract()}"`
   );
 
   //.....

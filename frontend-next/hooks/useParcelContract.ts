@@ -6,6 +6,7 @@ import type { BigNumber } from "ethers";
 import ParcelsContract from "../../artifacts/contracts/Parcel.sol/Parcel.json";
 import TokenContract from "../../artifacts/contracts/RewardToken.sol/RewardToken.json"
 import { getClaimableAmount } from "./utils";
+import { parcelContractAddress, resContractAddress } from "../settings";
 
 export interface Parcel {
    posX: number;                     
@@ -40,13 +41,13 @@ const useParcelContract = () => {
   // We also pass in the signer if there is a signed in wallet, or if there's
   // no signed in wallet then we'll pass in the connected provider.
   const contract = wagmi.useContract({
-    addressOrName: "0xB0f05d25e41FbC2b52013099ED9616f1206Ae21B",
+    addressOrName: parcelContractAddress,
     contractInterface: ParcelsContract.abi,
     signerOrProvider: signer.data || provider,
   });
 
   const resContract = wagmi.useContract({
-    addressOrName: "0x9264ee2dB87BA0A5ED6a5Dc1790957829B8672a8",
+    addressOrName: resContractAddress,
     contractInterface: TokenContract.abi,
     signerOrProvider: signer.data || provider,
   });

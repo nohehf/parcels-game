@@ -31,8 +31,8 @@ const Parcel: NextPage = (params) => {
 
   const mutation = useClaim();
 
-  const claim = () => {
-    mutation.mutateAsync({
+  const claim = async () => {
+    await mutation.mutateAsync({
       posX: 1,
       posY: 1,
     });

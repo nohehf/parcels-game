@@ -1,0 +1,3 @@
+export const parcelContractAddress = "0x09635F643e140090A9A8Dcd712eD6285858ceBef"
+export const itemsContractAddress = "0xB267C5f8279A939062A20d29CA9b185b61380f10"
+export const resContractAddress = "0xe73bc5BD4763A3307AB5F8F126634b7E12E3dA9b"

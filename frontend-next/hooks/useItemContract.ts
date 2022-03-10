@@ -5,6 +5,7 @@ import type { BigNumber } from "ethers";
 // The hardhat compiler writes this file to artifacts during compilation.
 import ItemsContract from "../../artifacts/contracts/ItemToken.sol/ItemToken.json";
 import { Composable } from "../types/Composable";
+import { itemsContractAddress } from "../settings";
 
 
 export enum EventType {
@@ -39,7 +40,7 @@ const useItemContract = () => {
   // We also pass in the signer if there is a signed in wallet, or if there's
   // no signed in wallet then we'll pass in the connected provider.
   const contract = wagmi.useContract({
-    addressOrName: "0x137F08d546D1B5f24b6e991a09B1de9482F39259",
+    addressOrName: itemsContractAddress,
     contractInterface: ItemsContract.abi,
     signerOrProvider: signer.data || provider,
   });
@@ -63,11 +64,21 @@ const useItemContract = () => {
     return await contract.getAllItemsBalances()
   }
 
+  const getInventory = async () => {
+    const rawInventory = await getAllComposablesBalances()
+    const inventory: {[id: number]: number} = {};
+    let test = rawInventory.map((item: any) => {
+      return parseInt(item)
+    })
+    return test
+  }
+
   return {
     contract,
     chainId: contract.provider.network?.chainId,
     getAllComposablesNames,
-    getAllComposables
+    getAllComposables,
+    getInventory
   };
 };
 
