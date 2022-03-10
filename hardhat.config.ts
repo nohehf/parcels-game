@@ -19,7 +19,7 @@ task("accounts", "Prints the list of accounts", async (args, hre) => {
 
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
-const ALCHEMY_API_KEY = "Q5v5SkjKV4laXMR8Dcm-rLqJND5gvpmh";
+const ALCHEMY_API_KEY = "3ANw5WNTJdc_aK7ApwGpzWBYb_9MDnWr";
 const test_mnemonic = "three siren fatigue length coast snow cost design shuffle arrest tenant flash creek chicken lizard rough fix second expose clarify coast";
 
 /**
@@ -48,7 +48,7 @@ const config: HardhatUserConfig = {
     ropsten: {
       url: `https://eth-ropsten.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
       gasPrice: "auto",
-      gas: 40000000,
+      gas: "auto",
       accounts: {
         mnemonic: "test test test test test test test test test test test junk",
       }
