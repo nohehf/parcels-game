@@ -20,12 +20,23 @@ contract ItemToken is ERC1155PresetMinterPauser {
     ////////////////////////////////////////////////////////////
     ///////////////////// External Function ////////////////////
     ///////////////////// Token Getter View
-    function getShopItemName() external view returns(string[] memory){
+    function getShopItemName() public view returns(string[] memory){
         return shopItemName;
     }
+    
     function getItemInfo(string memory _itemName) external view returns(ItemStruct memory) {
         return nameToItem[_itemName];
     }
+
+    function getAllItemsInfo() external view returns(ItemStruct[] memory) {
+        string[] memory itemsNames = getShopItemName();
+        ItemStruct[] memory memoryArray = new ItemStruct[](itemsNames.length);
+        for(uint i = 0; i < itemsNames.length; i++) {
+            memoryArray[i] = nameToItem[itemsNames[i]];
+        }
+        return memoryArray;
+    }
+
     function getItemKind(string memory _itemName) external view returns(uint) {
         return nameToItem[_itemName].kind;
     }

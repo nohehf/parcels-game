@@ -3,30 +3,37 @@ import { useProvider, useSigner } from "wagmi";
 import type { BigNumber } from "ethers";
 // Import our contract ABI (a json representation of our contract's public interface).
 // The hardhat compiler writes this file to artifacts during compilation.
-import ParcelsContract from "../../artifacts/contracts/Parcel.sol/Parcel.json";
-import { getClaimableAmount } from "./utils";
+import ItemsContract from "../../artifacts/contracts/ItemToken.sol/ItemToken.json";
 
-export interface Parcel {
-   posX: number;                     
-   posY: number;                      //Parcel posY  `8`
-   // fixed, contract logic
-   tokenId: number;
-   // mutable, user logic
-   name: string;                    //Parcel name `my_super_parcel`
-   // mutable, contract logic
-   dna: number;                       //Parcel dna `22_22`
-   lastClaimTime: Date;             //Parcel lastClaimTime : 1646771741 timestamp
-   productionRate: number;            //Parcel production_rate : $10Res/timestamp
-
-   owner: string
-
-}
 
 export enum EventType {
   CommentAdded = "CommentAdded",
 }
 
-const useParcelContract = () => {
+interface Composable {
+  tokenId: number;
+  name: string;
+  kind: number;
+  level: number;
+  price: number;
+  boost: number;
+  maximum: number;
+}
+
+const parseComposable = (array: any): Composable => {
+  const composable: Composable = {
+    tokenId: parseInt(array[0]),
+    name: array[1],
+    kind: parseInt(array[2]),
+    level: parseInt(array[3]),
+    price: parseInt(array[4]),
+    boost: parseInt(array[5]),
+    maximum: parseInt(array[6])
+  }
+  return composable
+}
+
+const useItemContract = () => {
   // An ethers.Signer instance associated with the signed-in wallet.
   // https://docs.ethers.io/v5/api/signer/
   const [signer] = useSigner();
@@ -39,75 +46,33 @@ const useParcelContract = () => {
   // We also pass in the signer if there is a signed in wallet, or if there's
   // no signed in wallet then we'll pass in the connected provider.
   const contract = wagmi.useContract({
-    addressOrName: "0xCD8a1C3ba11CF5ECfa6267617243239504a98d90",
-    contractInterface: ParcelsContract.abi,
+    addressOrName: "0x460e7dF1DD21EAd144588629dAb5071E33Ed3477",
+    contractInterface: ItemsContract.abi,
     signerOrProvider: signer.data || provider,
   });
 
   // Wrapper to add types to our getComments function.
-  const getParcel = async (posX: number, posY: number): Promise<Parcel> => {
-    const rawParcel = await contract.getAllData(posX,posY);
-    const parcel: Parcel = {
-      posX: parseInt(rawParcel[0]),
-      posY: parseInt(rawParcel[1]),
-      tokenId:  parseInt(rawParcel[2]),
-      name: rawParcel[3],
-      dna: parseInt(rawParcel[4]),
-      lastClaimTime: new Date(parseInt(rawParcel[5])*1000),
-      productionRate: parseInt(rawParcel[6]),
-      owner: ""
-    }
-    parcel.owner = await contract.ownerOf(parcel.tokenId);
-    return parcel
-  };
-
-  const getParcelGrid = async(gridWidth: number, gridHeight: number) => {
-
-    let parcels: Parcel[] = []
-    
-    for (let i = 0; i < gridHeight; i++) {
-      
-      for (let j = 0; j < gridHeight; j++) {
-      
-        parcels.push(await getParcel(j,i))
-        
-      }
-      
-    }
   
-  }
-
-  const getPlayerBalance = async (): Promise<any> =>  {
-    return parseInt(await contract.getBalance());
-  }
-
-  const getPlayerParcels = async (): Promise<any> => {
-
-  }
-
-  const getPlayerInvetory = async (): Promise<any> => {
-    return null
-  } 
-
   const getAllComposablesNames = async (): Promise<any> => {
-    //return await contract.getShopItemName()
-    return null
+    return await contract.getShopItemName()
   }
 
-  const claim = async (posX: number, posY:number): Promise<any> => {
-    return await contract.rewardClaim(posX,posX);
+  const getAllComposables = async (): Promise<Composable[]> => {
+    const raw = await contract.getAllItemsInfo()
+    let parsed: Composable [] = [];
+    raw.forEach((composable: any) => {
+      parsed.push(parseComposable(composable))
+    });
+    return parsed;
   }
 
   return {
     contract,
     chainId: contract.provider.network?.chainId,
-    getParcel,
-    getPlayerBalance,
-    getParcelGrid,
-    claim,
-    getAllComposablesNames
+    getAllComposablesNames,
+    getAllComposables
   };
 };
 
-export default useParcelContract;
+export default useItemContract;
 

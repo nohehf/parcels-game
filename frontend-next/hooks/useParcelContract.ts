@@ -39,7 +39,7 @@ const useParcelContract = () => {
   // We also pass in the signer if there is a signed in wallet, or if there's
   // no signed in wallet then we'll pass in the connected provider.
   const contract = wagmi.useContract({
-    addressOrName: "0xCD8a1C3ba11CF5ECfa6267617243239504a98d90",
+    addressOrName: "0x07882Ae1ecB7429a84f1D53048d35c4bB2056877",
     contractInterface: ParcelsContract.abi,
     signerOrProvider: signer.data || provider,
   });
