@@ -9,7 +9,9 @@ import TwemojiCoin from "../../components/TwemojiCoin";
 import Viewer3dNoSSR from "../../components/Viewer3dNoSSR";
 import useClaim from "../../hooks/useClaim";
 import useParcel from "../../hooks/useParcel";
-import { getClaimableAmount } from "../../hooks/utils";
+import { formatAddress, getClaimableAmount } from "../../hooks/utils";
+import useParcelContract from "../../hooks/useParcelContract";
+import { useAccount } from "wagmi";
 
 const parcel = {
   income: 100,
@@ -23,9 +25,20 @@ const Parcel: NextPage = (params) => {
     posY: 1,
   });
 
+  const [{ data, error, loading }, disconnect] = useAccount();
+
+  const isOwner = () => data?.address === parcel.data?.owner;
+
   const mutation = useClaim();
 
-  const claim = () => {};
+  const claim = () => {
+    mutation.mutateAsync({
+      posX: 1,
+      posY: 1,
+    });
+  };
+
+  const parcel_contract = useParcelContract();
 
   return (
     <div
@@ -39,40 +52,60 @@ const Parcel: NextPage = (params) => {
         <Viewer3dNoSSR file="/parcel3d.glb" />
       </div>
       <div className="max-w-[700px] bg-white text-black overflow-x-auto min-w-[350px]">
-        <hr />
         <div className="">
           <Player />
           <hr />
         </div>
-        <div className="flex justify-between p-5 flex-wrap ">
-          <h2 className="font-unifraktur text-2xl mb-1">{parcel.data?.name}</h2>
-          <Res amount={parcel.data?.productionRate || 0}>/day</Res>
-          <div className="font-almendra text-lg flex flex-col items-center">
-            <div>Last claim: {parcel.data?.lastClaimTime.toLocaleString()}</div>
-            <Res
-              amount={getClaimableAmount(
-                parcel.data?.productionRate,
-                parcel.data?.lastClaimTime
-              )}
-            ></Res>
-            <button
-              className="bg-lime-500 rounded-xl px-2 py-0.5 font-unifraktur text-white"
-              onClick={() => {
-                mutation.mutateAsync({
-                  posX: 1,
-                  posY: 1,
-                });
-              }}
-            >
-              Claim
-            </button>
-          </div>
-        </div>
+        <ParcelInfo
+          isOwner={isOwner()}
+          parcelData={parcel.data}
+          claim={claim}
+        ></ParcelInfo>
         <hr />
-        <ParcelMenu />
+        <ParcelMenu isOwner={isOwner()} />
       </div>
     </div>
   );
+};
+
+interface Props {
+  isOwner: boolean;
+  parcelData: any;
+  claim: () => void;
+}
+const ParcelInfo: React.FC<Props> = ({ isOwner, parcelData, claim }) => {
+  if (isOwner) {
+    return (
+      <div className="flex justify-between p-5 flex-wrap ">
+        <h2 className="font-unifraktur text-2xl mb-1">{parcelData?.name}</h2>
+        <Res amount={parcelData?.productionRate || 0}>/day</Res>
+        <div className="font-almendra text-lg flex flex-col items-center">
+          <div>Last claim: {parcelData?.lastClaimTime.toLocaleString()}</div>
+          <Res
+            amount={getClaimableAmount(
+              parcelData?.productionRate,
+              parcelData?.lastClaimTime
+            )}
+          ></Res>
+          <button
+            className="bg-lime-500 rounded-xl px-2 py-0.5 font-unifraktur text-white"
+            onClick={claim}
+            // onClick={() => parcel_contract.claim(1, 1)}
+          >
+            Claim
+          </button>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex justify-between p-5 flex-wrap ">
+        <h2 className="font-unifraktur text-2xl mb-1">{parcelData?.name}</h2>
+        Owner: {formatAddress(parcelData?.owner)}
+        <Res amount={parcelData?.productionRate || 0}>/day</Res>
+      </div>
+    );
+  }
 };
 
 export default Parcel;

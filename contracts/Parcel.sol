@@ -156,7 +156,7 @@ contract Parcel is Ownable, ERC721URIStorage, ERC1155Holder {
     ////////////////////////// Config //////////////////////////
     uint maxX = 10;                     // Default Weight
     uint maxY = 10;                     // Default Height
-    uint initialProductionRate = 10;    // Initial ProductionRate
+    uint initialProductionRate = 100;    // Initial ProductionRate
     uint maxProductionRate = 9990;      // Max ProductionRate
 
     //// Administration (onlyOwner) function

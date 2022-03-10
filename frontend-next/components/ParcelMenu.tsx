@@ -12,14 +12,16 @@ import CraftMenu from "./CraftMenu";
 import InventoryMenu from "./InventoryMenu";
 import RemoveMenu from "./RemoveMenu";
 
-interface Props {}
+interface Props {
+  isOwner: boolean;
+}
 
-const ParcelMenu: React.FC<Props> = ({}) => {
+const ParcelMenu: React.FC<Props> = ({ isOwner }) => {
   return (
     <div className="p-2 bg-white text-black flex flex-wrap justify-center">
-      <RemoveMenu />
-      <InventoryMenu />
-      <CraftMenu />
+      <RemoveMenu isOwner={isOwner} />
+      <InventoryMenu isOwner={isOwner} />
+      <CraftMenu isOwner={isOwner} />
     </div>
   );
 };

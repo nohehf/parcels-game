@@ -31,9 +31,18 @@ async function main() {
     }
   }
 
-  console.log("Contract deployed to:", parcelContract.address);
+  const [owner] = await hre.ethers.getSigners();
+
+  console.log(owner.getAddress());
+
+  console.log("Parcel contract deployed to:", parcelContract.address);
 
   console.log("$RES contract", await parcelContract.rewardGetContract());
+
+  console.log(
+    "Item (composable) contract",
+    await parcelContract.itemGetContract()
+  );
 
   //.....
 }

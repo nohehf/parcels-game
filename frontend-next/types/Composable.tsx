@@ -25,6 +25,7 @@ export enum action {
   BUILD = "Build",
   CRAFT = "Craft",
   REMOVE = "Remove",
+  NONE = "",
 }
 
 export enum display {

@@ -9,21 +9,23 @@ import {
 import ArrowButton from "./ArrowButton";
 import ComposableItem from "./ComposableItem";
 
-interface Props {}
+interface Props {
+  isOwner: boolean;
+}
 
 const dummyInventory: IComposable[] = [castle, farm];
 
-const InventoryMenu: React.FC<Props> = ({}) => {
+const InventoryMenu: React.FC<Props> = ({ isOwner }) => {
   return (
     <div className="p-2 rounded-xl bg-white text-black w-full">
-      <h2 className="font-unifraktur text-2xl mb-1">Inventory</h2>
+      <h2 className="font-unifraktur text-2xl mb-1">your inventory</h2>
       <div className="flex flex-wrap justify-between">
         {dummyInventory.map((item, index) => {
           return (
             <ComposableItem
               key={index}
               composable={item}
-              action={action.BUILD}
+              Action={isOwner ? action.BUILD : action.NONE}
               display={display.MIN}
             ></ComposableItem>
           );

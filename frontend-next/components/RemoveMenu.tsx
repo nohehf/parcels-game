@@ -9,11 +9,13 @@ import {
 import ArrowButton from "./ArrowButton";
 import ComposableItem from "./ComposableItem";
 
-interface Props {}
+interface Props {
+  isOwner: boolean;
+}
 
 const dummyInventory: IComposable[] = [castle, farm];
 
-const RemoveMenu: React.FC<Props> = ({}) => {
+const RemoveMenu: React.FC<Props> = ({ isOwner }) => {
   return (
     <div className="p-2 rounded-xl bg-white text-black w-full">
       <h2 className="font-unifraktur text-2xl mb-1">On parcel</h2>
@@ -23,7 +25,7 @@ const RemoveMenu: React.FC<Props> = ({}) => {
             <ComposableItem
               key={index}
               composable={item}
-              action={action.REMOVE}
+              Action={isOwner ? action.REMOVE : action.NONE}
               display={display.MIN}
             ></ComposableItem>
           );

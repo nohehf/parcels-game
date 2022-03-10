@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useMutation } from "react-query";
 import useParcelContract from "./useParcelContract";
 
@@ -10,7 +11,7 @@ const useClaim = () => {
   const contract = useParcelContract();
 
   return useMutation(async ({ posX, posY }: UseClaimPayload) => {
-    await contract.claim(posX, posY);
+    contract.claim(posX, posY);
   });
 };
 
