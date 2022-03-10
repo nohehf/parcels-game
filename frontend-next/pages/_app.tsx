@@ -11,6 +11,8 @@ import { providers } from "ethers";
 
 // Provider that will be used when no wallet is connected (aka no signer)
 const provider = providers.getDefaultProvider("http://localhost:8545");
+// const ALCHEMY_API_KEY = "3ANw5WNTJdc_aK7ApwGpzWBYb_9MDnWr";
+// const provider = ethers.getDefaultProvider("ropsten", {alchemy: ALCHEMY_API_KEY});
 
 // Create a react-query client
 const queryClient = new QueryClient({
