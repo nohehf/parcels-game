@@ -1,5 +1,15 @@
 type costElem = IComposable | number;
 
+export interface Composable {
+  tokenId: number;
+  name: string;
+  kind: number;
+  level: number;
+  price: number;
+  boost: number;
+  maximum: number;
+}
+
 export interface IComposable {
   name: string;
   income: number;

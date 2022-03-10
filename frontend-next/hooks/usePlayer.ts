@@ -8,7 +8,7 @@ interface UsePlayerProps {
 const usePlayer = () => {
   const [{ data, error, loading }, disconnect] = useAccount();
   const contract = useParcelContract();
-  return useQuery(["parcel", {chainId: contract.chainId, connected: data?.address }],() =>
+  return useQuery(["player", {chainId: contract.chainId, connected: data?.address }],() =>
     contract.getPlayerBalance()
   );
 };

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import useBuyComposable from "../hooks/useBuyComposable";
+import useComposables from "../hooks/useComposables";
 import useItemContract from "../hooks/useItemContract";
 import useParcelContract from "../hooks/useParcelContract";
 import {
@@ -15,27 +17,29 @@ interface Props {
   isOwner: boolean;
 }
 
-const dummyInventory: IComposable[] = [castle, farm];
-
 const CraftMenu: React.FC<Props> = ({ isOwner }) => {
-  const itemContract = useItemContract();
-  const [allNames, setAllNames] = useState([]);
-  itemContract.getAllComposables().then((all) => setAllNames(all));
+  const buyComposableMutation = useBuyComposable();
+  const parcelContract = useParcelContract();
+  const buttonCallback = (name: string, price: number) => {
+    buyComposableMutation.mutateAsync({ name, price });
+  };
+  const composables = useComposables();
   return (
-    <div className="p-2 rounded-xl bg-white text-black w-full">
-      {JSON.stringify(allNames)}
+    <div className=" rounded-xl bg-white text-black w-full">
       <h2 className="font-unifraktur text-2xl mb-1">Craft</h2>
       <div className="flex flex-wrap justify-between">
-        {dummyInventory.map((item, index) => {
-          return (
-            <ComposableItem
-              key={index}
-              composable={item}
-              Action={action.CRAFT}
-              display={display.MIN}
-            ></ComposableItem>
-          );
-        })}
+        {composables.data &&
+          composables.data.map((item, index) => {
+            return (
+              <ComposableItem
+                key={index}
+                composable={item}
+                Action={action.CRAFT}
+                display={display.MIN}
+                callback={() => buttonCallback(item.name, item.price)}
+              ></ComposableItem>
+            );
+          })}
       </div>
     </div>
   );

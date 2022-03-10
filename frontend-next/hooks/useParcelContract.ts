@@ -4,6 +4,7 @@ import type { BigNumber } from "ethers";
 // Import our contract ABI (a json representation of our contract's public interface).
 // The hardhat compiler writes this file to artifacts during compilation.
 import ParcelsContract from "../../artifacts/contracts/Parcel.sol/Parcel.json";
+import TokenContract from "../../artifacts/contracts/RewardToken.sol/RewardToken.json"
 import { getClaimableAmount } from "./utils";
 
 export interface Parcel {
@@ -39,8 +40,14 @@ const useParcelContract = () => {
   // We also pass in the signer if there is a signed in wallet, or if there's
   // no signed in wallet then we'll pass in the connected provider.
   const contract = wagmi.useContract({
-    addressOrName: "0x07882Ae1ecB7429a84f1D53048d35c4bB2056877",
+    addressOrName: "0xB0f05d25e41FbC2b52013099ED9616f1206Ae21B",
     contractInterface: ParcelsContract.abi,
+    signerOrProvider: signer.data || provider,
+  });
+
+  const resContract = wagmi.useContract({
+    addressOrName: "0x9264ee2dB87BA0A5ED6a5Dc1790957829B8672a8",
+    contractInterface: TokenContract.abi,
     signerOrProvider: signer.data || provider,
   });
 
@@ -81,13 +88,10 @@ const useParcelContract = () => {
     return parseInt(await contract.getBalance());
   }
 
-  const getPlayerParcels = async (): Promise<any> => {
-
+  const buyComposable = async (name: string, price: number) => {
+    await resContract.approve(contract.address,price)
+    await contract.itemBuy(name);
   }
-
-  const getPlayerInvetory = async (): Promise<any> => {
-    return null
-  } 
 
   const getAllComposablesNames = async (): Promise<any> => {
     //return await contract.getShopItemName()
@@ -105,7 +109,8 @@ const useParcelContract = () => {
     getPlayerBalance,
     getParcelGrid,
     claim,
-    getAllComposablesNames
+    getAllComposablesNames,
+    buyComposable
   };
 };
 
