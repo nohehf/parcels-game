@@ -45,12 +45,12 @@ const config: HardhatUserConfig = {
         mnemonic: "test test test test test test test test test test test junk", // test test test test test test test test test test test junk
       },
     },
-    // ropsten: {
-    //   url: `https://eth-ropsten.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
-    //   accounts: {
-    //     mnemonic: `${test_mnemonic}`,
-    //   }
-    // }
+    ropsten: {
+      url: `https://eth-ropsten.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
+      accounts: {
+        mnemonic: `${test_mnemonic}`,
+      }
+    }
     // hardhat: {
     //   accounts: [
     //     {
