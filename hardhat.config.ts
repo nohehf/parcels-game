@@ -45,8 +45,8 @@ const config: HardhatUserConfig = {
         mnemonic: "test test test test test test test test test test test junk", // test test test test test test test test test test test junk
       },
     },
-    ropsten: {
-      url: `https://eth-ropsten.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
+    rinkeby: {
+      url: `https://eth-rinkeby.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
       gasPrice: "auto",
       gas: "auto",
       accounts: {
