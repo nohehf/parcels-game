@@ -63,6 +63,9 @@ const config: HardhatUserConfig = {
     //   ],
     // },
   },
+  etherscan: {
+    apiKey: "PZGHF4PVPSQRARMV5GQYK5VYC12BFQEWYI"
+  },
   solidity: {
     compilers: [
       {
