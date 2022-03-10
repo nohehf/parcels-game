@@ -50,7 +50,7 @@ const config: HardhatUserConfig = {
       gasPrice: "auto",
       gas: "auto",
       accounts: {
-        mnemonic: "test test test test test test test test test test test junk",
+        mnemonic: `${test_mnemonic}`,
       }
     }
     // hardhat: {
