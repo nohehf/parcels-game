@@ -6,7 +6,8 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract RewardToken is ERC20, ERC20Burnable, Ownable {
-    constructor() ERC20("REP", "Farm Reward") {}
+    constructor() ERC20("REP", "Farm Reward") {
+    }
 
 
     ////////////////////////////////////////////////////////////
@@ -22,4 +23,9 @@ contract RewardToken is ERC20, ERC20Burnable, Ownable {
     }
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
+
+    function decimals() public view virtual override returns (uint8) {
+        return 1;
+    }
+
 }
