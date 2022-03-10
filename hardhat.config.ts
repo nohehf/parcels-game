@@ -48,7 +48,7 @@ const config: HardhatUserConfig = {
     ropsten: {
       url: `https://eth-ropsten.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
       gasPrice: "auto",
-      gas: "auto",
+      gas: 40000000,
       accounts: {
         mnemonic: "test test test test test test test test test test test junk",
       }
