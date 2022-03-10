@@ -8,6 +8,7 @@ interface Props {
   Action: action;
   display: display;
   callback: () => void;
+  number?: number;
 }
 
 const buttonColor = (Action: action) => {
@@ -28,11 +29,18 @@ const ComposableItem: React.FC<Props> = ({
   Action,
   display,
   callback,
+  number,
 }) => {
   return (
     <div className="bg-white text-gray-800 p-2 font-almendra mb-3 rounded-xl flex items-center justify-between drop-shadow-xl">
       <div className="flex flex-col mr-2">
         <h2 className="font-unifraktur text-2xl">
+          {number ? (
+            <div className="bg-lime-500 text-white rounded-full text-sm w-5 h-5 mb-[-30px] mr-[-100px]">
+              {number}
+            </div>
+          ) : null}
+
           {composable.name.toLowerCase()}
         </h2>
         <div className="flex items-center flex-col">

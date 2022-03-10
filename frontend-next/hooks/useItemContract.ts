@@ -66,11 +66,16 @@ const useItemContract = () => {
 
   const getInventory = async () => {
     const rawInventory = await getAllComposablesBalances()
-    const inventory: {[id: number]: number} = {};
-    let test = rawInventory.map((item: any) => {
-      return parseInt(item)
+    const inventory: {composable: Composable, amount: number}[] = [];
+    const composablesList = await getAllComposables();
+    let amounts = rawInventory.map((item: any, index:number) => {
+      const amount = parseInt(item)
+      if(amount > 0) {
+        inventory.push({composable: composablesList[index], amount})
+      }
     })
-    return test
+
+    return inventory
   }
 
   return {

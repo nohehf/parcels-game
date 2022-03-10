@@ -34,7 +34,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <div className="">
           <Nav />
-          <Component {...pageProps} />
+          <div className="h-[90%]">
+            <Component {...pageProps} />
+          </div>
+
           <Toaster />
         </div>
       </QueryClientProvider>

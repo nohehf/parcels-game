@@ -1,3 +1,3 @@
-export const parcelContractAddress = "0x09635F643e140090A9A8Dcd712eD6285858ceBef"
-export const itemsContractAddress = "0xB267C5f8279A939062A20d29CA9b185b61380f10"
-export const resContractAddress = "0xe73bc5BD4763A3307AB5F8F126634b7E12E3dA9b"
+export const parcelContractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+export const itemsContractAddress = "0x9f1ac54BEF0DD2f6f3462EA0fa94fC62300d3a8e"
+export const resContractAddress = "0xCafac3dD18aC6c6e92c921884f9E4176737C052c"
