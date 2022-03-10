@@ -5,6 +5,7 @@ import 'hardhat-deploy';
 import '@symfoni/hardhat-react';
 import 'hardhat-typechain';
 import '@typechain/ethers-v5';
+import "@nomiclabs/hardhat-etherscan";
 
 import { HardhatUserConfig, task } from 'hardhat/config';
 
@@ -21,7 +22,7 @@ task("accounts", "Prints the list of accounts", async (args, hre) => {
 // Go to https://hardhat.org/config/ to learn more
 const ALCHEMY_API_KEY = "3ANw5WNTJdc_aK7ApwGpzWBYb_9MDnWr";
 const test_mnemonic = "three siren fatigue length coast snow cost design shuffle arrest tenant flash creek chicken lizard rough fix second expose clarify coast";
-
+const ETHERSCAN_API_KEY = "PZGHF4PVPSQRARMV5GQYK5VYC12BFQEWYI";
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
@@ -64,7 +65,7 @@ const config: HardhatUserConfig = {
     // },
   },
   etherscan: {
-    apiKey: "PZGHF4PVPSQRARMV5GQYK5VYC12BFQEWYI"
+    apiKey: `${ETHERSCAN_API_KEY}`,
   },
   solidity: {
     compilers: [
