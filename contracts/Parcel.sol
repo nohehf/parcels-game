@@ -6,13 +6,13 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
+import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
 
 import "./RewardToken.sol";
 import "./ItemToken.sol";
 
-contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155Holder {
+contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Holder {
     using Counters for Counters.Counter;
     
     Counters.Counter internal _ParcelTokenIds;
@@ -112,15 +112,15 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
         ItemToken.ItemStruct memory item = itemContractAddress.getItemInfo(_name);
         require(item.price!=0, "This item doesn't exist yet");
         _burnRewardToken(item.price);
-        _mintItem(item.tokenId);
+        _mintItem(_name);
     }
 
     function testTransfert(uint _tokenId, uint _destinationPosX, uint _destinationPosY) external {
-        itemContractAddress.safeTransferFrom(msg.sender, address(this), _tokenId, 1, abi.encode(_destinationPosX, _destinationPosY));
+        itemContractAddress.safeTransferFrom(msg.sender, address(this), _tokenId, abi.encode(_destinationPosX, _destinationPosY));
     }
 
     function itemShowBalance(uint _tokenId) external view returns(uint) {
-        return itemContractAddress.balanceOf(msg.sender, _tokenId);
+        return itemContractAddress.tokenOfOwnerByIndex(msg.sender, _tokenId);
     }
     
     ////////////////////////////////////////////////////////////
@@ -145,7 +145,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
     mapping (uint => uint[2]) internal idToPos;
     mapping (uint => mapping(uint => uint)) internal posToId;
 
-    mapping (uint => mapping(uint => mapping(uint => uint))) public itemQuantity;
+    mapping (uint => mapping(uint => mapping(string => uint))) public itemQuantity;
     // posX, posY, tokenId, itemQuantity
     mapping (uint => mapping (uint => mapping(uint => uint))) private KindQuantity;
     // posX, posY, kind, kindQuantity
@@ -157,7 +157,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
     ////////////////////////// Config //////////////////////////
     uint maxX = 10;                     // Default Weight
     uint maxY = 10;                     // Default Height
-    uint initialProductionRate = 100;    // Initial ProductionRate
+    uint initialProductionRate = 100;   // Initial ProductionRate
     uint maxProductionRate = 9990;      // Max ProductionRate
 
     //// Administration (onlyOwner) function
@@ -182,10 +182,10 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
     function _isApprovedOrOwner(address _spender, uint _posX, uint _posY) internal view returns (bool) {
         return _isApprovedOrOwner(_spender, posToId[_posX][_posY]);
     }
-    function _isItemMaximumPolicyRespected(uint _posX, uint _posY, uint _kind, uint _tokenId) internal view returns (bool) {
-        uint itemQuantity_ = _getItemQuantity(_posX, _posY, _tokenId);
+    function _isItemMaximumPolicyRespected(uint _posX, uint _posY, uint _kind, string memory _tokenName) internal view returns (bool) {
+        uint itemQuantity_ = _getItemQuantity(_posX, _posY, _tokenName);
         uint kindQuantity = _getKindQuantity(_posX, _posY, _kind);
-        uint itemQuota = _getItemQuota(_tokenId);
+        uint itemQuota = _getItemQuota(_tokenName);
         if (itemQuota == 0) {
             return (kindQuantity==0);
         } else {
@@ -267,7 +267,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
         return super.tokenURI(tokenId);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable, ERC1155Receiver) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
     // Encode bytes to uint ??? abi.encode ,, abi.decode ??
@@ -283,8 +283,8 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
 
     ////////////////////////////////////////////////////////////
     //////////////////// Item Internal Logic ///////////////////
-    function _mintItem(uint _tokenId) internal {
-        itemContractAddress.mint(msg.sender, _tokenId, 1, "");
+    function _mintItem(string memory _name) internal {
+        itemContractAddress.safeMint(msg.sender, _name);
     }
 
     function _getItemQuantity(uint _posX, uint _posY, uint _tokenId) public view returns(uint) {
@@ -295,23 +295,22 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
         return KindQuantity[_posX][_posY][_kindId];
     }
 
-    function _getItemQuota(uint _tokenId) private view returns(uint) {
-        string memory tokenName = itemContractAddress.getNameToTokenId(_tokenId);
-        uint maximumPolicy = itemContractAddress.getItemMaximumPolicy(tokenName);
+    function _getItemQuota(string memory _name) private view returns(uint) {
+        uint maximumPolicy = itemContractAddress.getItemMaximumPolicy(_name);
         return maximumPolicy;
     }
 
-    function onERC1155Received(address operator, address from, uint256 id, uint256 value, bytes memory data) public override returns (bytes4) {
+    function onERC721Received(address operator, address from, uint256 tokenId, bytes memory data) public override returns (bytes4) {
         require(msg.sender==address(itemContractAddress), "Must be a ItemToken ERC1155");
         uint posX;
         uint posY;
         (posX, posY) = abi.decode(data, (uint, uint));
-        ItemToken.ItemStruct memory item = itemContractAddress.getItemInfo(itemContractAddress.getNameToTokenId(id));
+        ItemToken.ItemStruct memory item = itemContractAddress.getItemInfo(itemContractAddress.getNameFromTokenId(tokenId));
         require(from==ownerOf(getIdFromPos(posX, posY)), "You must be the owner of this land");
-        require(_isItemMaximumPolicyRespected(posX, posY, item.kind, item.tokenId), "Not enough space on this land");
-        itemQuantity[posX][posY][item.tokenId]++;
+        require(_isItemMaximumPolicyRespected(posX, posY, item.kind, item.name), "Not enough space on this land");
+        itemQuantity[posX][posY][item.name]++;
         KindQuantity[posX][posY][item.kind]++;    
-        return bytes4(keccak256("onERC1155Received(address,address,uint256,uint256,bytes)"));
+        return bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
     }
     
     ////////////////////////////////////////////////////////////
