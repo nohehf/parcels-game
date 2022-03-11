@@ -11,7 +11,7 @@ const Home: NextPage = () => {
         backgroundSize: "cover",
       }}
     >
-      <div className=" p-5 rounded-xl bg-beige">
+      <div className=" p-5 rounded-xl bg-white bg-opacity-50 backdrop-blur-md">
         <Grid />
       </div>
     </div>

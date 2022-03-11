@@ -61,7 +61,7 @@ const Parcel: NextPage = (params) => {
       <div className="w-full h-full">
         <Viewer3dNoSSR file="/parcel3d.glb" />
       </div>
-      <div className="max-w-[700px] bg-white text-black overflow-x-auto min-w-[350px]">
+      <div className="max-w-[700px] bg-white backdrop-blur-md bg-opacity-50 text-gray-700 overflow-x-auto min-w-[350px]">
         <div className="">
           <hr />
         </div>

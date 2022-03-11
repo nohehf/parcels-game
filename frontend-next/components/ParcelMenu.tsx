@@ -23,7 +23,7 @@ const ParcelMenu: React.FC<Props> = ({ isOwner, posX, posY }) => {
   const [{ data, error, loading }, disconnect] = useAccount();
   if (data?.address) {
     return (
-      <div className="p-2 bg-white text-black flex flex-wrap justify-center">
+      <div className="p-2  text-black flex flex-wrap justify-center">
         <RemoveMenu isOwner={isOwner} posX={posX} posY={posY} />
         <hr className="w-full" />
         <InventoryMenu isOwner={isOwner} posX={posX} posY={posY} />
@@ -33,7 +33,7 @@ const ParcelMenu: React.FC<Props> = ({ isOwner, posX, posY }) => {
     );
   } else {
     return (
-      <div className="p-2 bg-white text-black flex flex-wrap justify-center w-full">
+      <div className="p-2 text-black flex flex-wrap justify-center w-full">
         <RemoveMenu isOwner={isOwner} posX={posX} posY={posY} />
       </div>
     );

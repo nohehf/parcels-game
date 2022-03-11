@@ -27,7 +27,7 @@ const CraftMenu: React.FC<Props> = ({ isOwner }) => {
   const player = usePlayer();
   const composables = useComposables();
   return (
-    <div className=" rounded-xl bg-white text-black w-full">
+    <div className="text-gray-700 w-full">
       <h2 className="font-unifraktur text-2xl mb-1">Craft</h2>
       <div className="flex flex-wrap justify-between">
         {composables.data &&

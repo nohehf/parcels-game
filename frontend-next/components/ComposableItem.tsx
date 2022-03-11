@@ -45,14 +45,14 @@ const ComposableItem: React.FC<Props> = ({
         </h2>
         <div className="flex items-center flex-col">
           {Action === action.CRAFT ? (
-            <div className="flex flex-col items-center">
-              <div className="flex items-center">
+            <div className="flex flex-col ">
+              <div className="flex text-left items-center">
                 +<TwemojiCoin className="mr-1" />
                 {composable.boost} $res/day
               </div>
               <hr className="border-0.5 w-10 border-gray-300" />
-              <div className="flex items-center">
-                -
+              <div className="flex text-left items-center">
+                &nbsp;-
                 <TwemojiCoin className="mr-1" />
                 {composable.price} $res
               </div>

@@ -9,7 +9,7 @@ const Player: React.FC<Props> = ({}) => {
   const [{ data, error, loading }, disconnect] = useAccount();
   const playerQuery = usePlayer();
   return (
-    <div className="bg-white text-black flex justify-between items-center font-almendra text-xl">
+    <div className="text-white flex justify-between items-center font-almendra text-xl">
       Wallet:
       {formatAddress(data?.address)}
       &nbsp; &nbsp; &nbsp;
