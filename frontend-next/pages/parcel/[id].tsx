@@ -57,7 +57,6 @@ const Parcel: NextPage = (params) => {
         backgroundSize: "cover",
       }}
     >
-      {posX + "," + posY}
       <div className="w-full h-full">
         <Viewer3dNoSSR file="/parcel3d.glb" />
       </div>
@@ -85,10 +84,15 @@ interface Props {
 const ParcelInfo: React.FC<Props> = ({ isOwner, parcelData, claim }) => {
   if (isOwner) {
     return (
-      <div className="flex justify-between p-5 flex-wrap ">
-        <h2 className="font-unifraktur text-2xl mb-1">{parcelData?.name}</h2>
-        <Res amount={parcelData?.productionRate || 0}>/day</Res>
-        <div className="font-almendra text-lg flex flex-col items-center">
+      <div className="flex justify-between p-2 flex-wrap ">
+        <div className="flex flex-col justify-start">
+          <h2 className="font-unifraktur text-2xl text-left">
+            {parcelData?.name}
+          </h2>
+          <Res amount={parcelData?.productionRate || 0}>/day</Res>
+        </div>
+
+        <div className="font-almendra text-lg flex flex-col items-end">
           <div>Last claim: {parcelData?.lastClaimTime.toLocaleString()}</div>
           <Res
             amount={getClaimableAmount(
@@ -97,7 +101,7 @@ const ParcelInfo: React.FC<Props> = ({ isOwner, parcelData, claim }) => {
             )}
           ></Res>
           <button
-            className="bg-lime-500 rounded-xl px-2 py-0.5 font-unifraktur text-white"
+            className="bg-lime-500 rounded-xl px-2 py-0.5 font-unifraktur text-white mt-1"
             onClick={claim}
             // onClick={() => parcel_contract.claim(1, 1)}
           >

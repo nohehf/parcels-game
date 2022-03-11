@@ -6,7 +6,7 @@ import useBuyComposable from "../hooks/useBuyComposable";
 interface Props {
   composable: Composable;
   Action: action;
-  display: display;
+  Display: display;
   callback: () => void;
   number?: number;
 }
@@ -27,7 +27,7 @@ const nsm =
 const ComposableItem: React.FC<Props> = ({
   composable,
   Action,
-  display,
+  Display,
   callback,
   number,
 }) => {
@@ -44,7 +44,7 @@ const ComposableItem: React.FC<Props> = ({
           {composable.name.toLowerCase()}
         </h2>
         <div className="flex items-center flex-col">
-          {Action === action.CRAFT ? (
+          {Display === display.FULL ? (
             <div className="flex flex-col ">
               <div className="flex text-left items-center">
                 <span className="w-1 mr-1">+</span>&nbsp;

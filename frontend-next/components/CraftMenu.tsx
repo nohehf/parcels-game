@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAccount } from "wagmi";
 import useBuyComposable from "../hooks/useBuyComposable";
 import useComposables from "../hooks/useComposables";
 import useItemContract from "../hooks/useItemContract";
@@ -36,8 +37,8 @@ const CraftMenu: React.FC<Props> = ({ isOwner }) => {
               <ComposableItem
                 key={index}
                 composable={item}
-                Action={item.price <= player.data ? action.CRAFT : action.NONE}
-                display={display.MIN}
+                Action={player.data > item.price ? action.CRAFT : action.NONE}
+                Display={display.FULL}
                 callback={() => buttonCallback(item.name, item.price)}
               ></ComposableItem>
             );

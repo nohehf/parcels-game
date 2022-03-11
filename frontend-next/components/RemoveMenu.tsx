@@ -17,8 +17,6 @@ interface Props {
   posY: number;
 }
 
-const dummyInventory: IComposable[] = [castle, farm];
-
 const RemoveMenu: React.FC<Props> = ({ isOwner, posX, posY }) => {
   const parcelComposables = useParcelComposables({
     posX: posX,
@@ -43,7 +41,7 @@ const RemoveMenu: React.FC<Props> = ({ isOwner, posX, posY }) => {
                 key={index}
                 composable={item.composable}
                 Action={isOwner ? action.REMOVE : action.NONE}
-                display={display.MIN}
+                Display={display.MIN}
                 number={item.amount}
                 callback={() => buttonCallback(item.composable.tokenId)}
               ></ComposableItem>
