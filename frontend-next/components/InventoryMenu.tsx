@@ -13,15 +13,21 @@ import ComposableItem from "./ComposableItem";
 
 interface Props {
   isOwner: boolean;
+  posX: number;
+  posY: number;
 }
 
 const dummyInventory: IComposable[] = [castle, farm];
 
-const InventoryMenu: React.FC<Props> = ({ isOwner }) => {
+const InventoryMenu: React.FC<Props> = ({ isOwner, posX, posY }) => {
   const inventory = useInventory();
   const placeComposableMutation = usePlaceComposable();
   const buttonCallback = (tokenId: number) => {
-    placeComposableMutation.mutateAsync({ posX: 1, posY: 1, tokenId: tokenId });
+    placeComposableMutation.mutateAsync({
+      posX: posX,
+      posY: posY,
+      tokenId: tokenId,
+    });
   };
   return (
     <div className=" bg-white text-black w-full">
@@ -35,7 +41,7 @@ const InventoryMenu: React.FC<Props> = ({ isOwner }) => {
               number={item.amount}
               Action={isOwner ? action.BUILD : action.NONE}
               display={display.MIN}
-              callback={() => buttonCallback(1)}
+              callback={() => buttonCallback(item.composable.tokenId)}
             ></ComposableItem>
           );
         })}

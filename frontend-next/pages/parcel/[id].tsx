@@ -21,9 +21,17 @@ const parcel = {
 
 const Parcel: NextPage = (params) => {
   const router = useRouter();
+
+  const posX = parseInt(
+    typeof router.query.id === "string" ? router.query.id?.split(",")[0] : "0"
+  );
+  const posY = parseInt(
+    typeof router.query.id === "string" ? router.query.id?.split(",")[1] : "0"
+  );
+
   const parcel = useParcel({
-    posX: 1,
-    posY: 1,
+    posX: posX,
+    posY: posY,
   });
 
   const [{ data, error, loading }, disconnect] = useAccount();
@@ -34,8 +42,8 @@ const Parcel: NextPage = (params) => {
 
   const claim = async () => {
     await mutation.mutateAsync({
-      posX: 1,
-      posY: 1,
+      posX: posX,
+      posY: posY,
     });
   };
 
@@ -49,6 +57,7 @@ const Parcel: NextPage = (params) => {
         backgroundSize: "cover",
       }}
     >
+      {posX + "," + posY}
       <div className="w-full h-full">
         <Viewer3dNoSSR file="/parcel3d.glb" />
       </div>
@@ -62,7 +71,7 @@ const Parcel: NextPage = (params) => {
           claim={claim}
         ></ParcelInfo>
         <hr />
-        <ParcelMenu isOwner={isOwner()} />
+        <ParcelMenu isOwner={isOwner()} posX={posX} posY={posY} />
       </div>
     </div>
   );

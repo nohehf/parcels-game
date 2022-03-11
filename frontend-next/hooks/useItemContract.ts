@@ -84,13 +84,20 @@ const useItemContract = () => {
     await contract.safeTransferFrom(address, parcelContractAddress, tokenId, 1 ,encoded )
   }
 
+  const removeFromParcel = async (address: string, tokenId: number, posX:number, posY: number) => {
+    const abiCoder = new AbiCoder()
+    const encoded = abiCoder.encode(["uint", "uint"], [posX, posY]);
+    await contract.safeTransferFrom(parcelContractAddress, address, tokenId, 1 ,encoded )
+  }
+
   return {
     contract,
     chainId: contract.provider.network?.chainId,
     getAllComposablesNames,
     getAllComposables,
     getInventory,
-    placeOnParcel
+    placeOnParcel,
+    removeFromParcel
   };
 };
 
