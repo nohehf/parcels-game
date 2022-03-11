@@ -3,6 +3,7 @@ import useBuyComposable from "../hooks/useBuyComposable";
 import useComposables from "../hooks/useComposables";
 import useItemContract from "../hooks/useItemContract";
 import useParcelContract from "../hooks/useParcelContract";
+import usePlayer from "../hooks/usePlayer";
 import {
   IComposable,
   action,
@@ -23,6 +24,7 @@ const CraftMenu: React.FC<Props> = ({ isOwner }) => {
   const buttonCallback = (name: string, price: number) => {
     buyComposableMutation.mutateAsync({ name, price });
   };
+  const player = usePlayer();
   const composables = useComposables();
   return (
     <div className=" rounded-xl bg-white text-black w-full">
@@ -34,7 +36,7 @@ const CraftMenu: React.FC<Props> = ({ isOwner }) => {
               <ComposableItem
                 key={index}
                 composable={item}
-                Action={action.CRAFT}
+                Action={item.price <= player.data ? action.CRAFT : action.NONE}
                 display={display.MIN}
                 callback={() => buttonCallback(item.name, item.price)}
               ></ComposableItem>

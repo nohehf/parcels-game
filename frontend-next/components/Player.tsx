@@ -9,9 +9,10 @@ const Player: React.FC<Props> = ({}) => {
   const [{ data, error, loading }, disconnect] = useAccount();
   const playerQuery = usePlayer();
   return (
-    <div className="p-5 bg-white text-black flex flex-wrap justify-between font-almendra text-xl">
+    <div className="bg-white text-black flex justify-between items-center font-almendra text-xl">
       Wallet:
       {formatAddress(data?.address)}
+      &nbsp; &nbsp; &nbsp;
       <Res amount={playerQuery.data}></Res>
     </div>
   );

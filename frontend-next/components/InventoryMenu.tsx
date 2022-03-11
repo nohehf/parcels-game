@@ -19,7 +19,7 @@ const dummyInventory: IComposable[] = [castle, farm];
 const InventoryMenu: React.FC<Props> = ({ isOwner }) => {
   const inventory = useInventory();
   return (
-    <div className="rounded-xl bg-white text-black w-full">
+    <div className=" bg-white text-black w-full">
       <h2 className="font-unifraktur text-2xl mb-1">your inventory</h2>
       <div className="flex flex-wrap justify-between">
         {inventory.data?.map((item, index) => {

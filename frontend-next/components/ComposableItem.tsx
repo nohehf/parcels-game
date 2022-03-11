@@ -75,10 +75,10 @@ const ComposableItem: React.FC<Props> = ({
   );
 };
 
-const ComposableButton: React.FC<{ Action: action; callback: () => void }> = ({
-  Action,
-  callback,
-}) => {
+const ComposableButton: React.FC<{
+  Action: action;
+  callback: () => void;
+}> = ({ Action, callback }) => {
   if (Action !== action.NONE) {
     return (
       <button

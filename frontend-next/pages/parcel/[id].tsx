@@ -53,7 +53,6 @@ const Parcel: NextPage = (params) => {
       </div>
       <div className="max-w-[700px] bg-white text-black overflow-x-auto min-w-[350px]">
         <div className="">
-          <Player />
           <hr />
         </div>
         <ParcelInfo

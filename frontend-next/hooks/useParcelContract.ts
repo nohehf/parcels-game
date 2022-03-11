@@ -103,6 +103,10 @@ const useParcelContract = () => {
     return await contract.rewardClaim(posX,posX);
   }
 
+  const placeComposable = async (tokenId: number, posX: number, posY: number) => {
+    return await contract.testTransfer(tokenId, posX, posY)
+  }
+
   return {
     contract,
     chainId: contract.provider.network?.chainId,

@@ -35,8 +35,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     <WagmiProvider autoConnect provider={provider}>
       <QueryClientProvider client={queryClient}>
         <div className="">
-          <Nav />
-          <div className="h-[90%]">
+          <div className="h-[5%]">
+            <Nav />
+          </div>
+
+          <div className="h-[95%]">
             <Component {...pageProps} />
           </div>
 

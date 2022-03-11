@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAccount } from "wagmi";
 import {
   IComposable,
   action,
@@ -17,13 +18,24 @@ interface Props {
 }
 
 const ParcelMenu: React.FC<Props> = ({ isOwner }) => {
-  return (
-    <div className="p-2 bg-white text-black flex flex-wrap justify-center">
-      <RemoveMenu isOwner={isOwner} />
-      <InventoryMenu isOwner={isOwner} />
-      <CraftMenu isOwner={isOwner} />
-    </div>
-  );
+  const [{ data, error, loading }, disconnect] = useAccount();
+  if (data?.address) {
+    return (
+      <div className="p-2 bg-white text-black flex flex-wrap justify-center">
+        <RemoveMenu isOwner={isOwner} />
+        <hr className="w-full" />
+        <InventoryMenu isOwner={isOwner} />
+        <hr className="w-full" />
+        <CraftMenu isOwner={isOwner} />
+      </div>
+    );
+  } else {
+    return (
+      <div className="p-2 bg-white text-black flex flex-wrap justify-center w-full">
+        <RemoveMenu isOwner={isOwner} />
+      </div>
+    );
+  }
 };
 
 export default ParcelMenu;
