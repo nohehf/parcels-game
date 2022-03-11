@@ -12,6 +12,7 @@ import useParcel from "../../hooks/useParcel";
 import { formatAddress, getClaimableAmount } from "../../hooks/utils";
 import useParcelContract from "../../hooks/useParcelContract";
 import { useAccount } from "wagmi";
+import useParcelComposables from "../../hooks/useParcelComposables";
 
 const parcel = {
   income: 100,

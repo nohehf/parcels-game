@@ -7,6 +7,8 @@ import ParcelsContract from "../../artifacts/contracts/Parcel.sol/Parcel.json";
 import TokenContract from "../../artifacts/contracts/RewardToken.sol/RewardToken.json"
 import { getClaimableAmount } from "./utils";
 import { parcelContractAddress, resContractAddress } from "../settings";
+import useItemContract from "./useItemContract";
+import { Composable } from "../types/Composable";
 
 export interface Parcel {
    posX: number;                     
@@ -29,6 +31,7 @@ export enum EventType {
 }
 
 const useParcelContract = () => {
+  const itemContract = useItemContract();
   // An ethers.Signer instance associated with the signed-in wallet.
   // https://docs.ethers.io/v5/api/signer/
   const [signer] = useSigner();
@@ -51,6 +54,7 @@ const useParcelContract = () => {
     contractInterface: TokenContract.abi,
     signerOrProvider: signer.data || provider,
   });
+
 
   // Wrapper to add types to our getComments function.
   const getParcel = async (posX: number, posY: number): Promise<Parcel> => {
@@ -103,8 +107,26 @@ const useParcelContract = () => {
     return await contract.rewardClaim(posX,posX);
   }
 
+  const getParcelComposableBalance = async (posX: number, posY: number, tokenId: number) => {
+    return parseInt(await contract._getItemQuantity(posX, posY,tokenId))
+  }
+
+  const getParcelComposables = async (posX: number, posY: number) => {
+    const composablesList  = await itemContract.getAllComposables();
+    let parcelComposables:  {composable: Composable, amount: number}[] = [];
+    await Promise.all(
+      composablesList.map(async (composable) => {
+        const amount = await getParcelComposableBalance(posX, posY, composable.tokenId)
+        if(amount > 0)
+          parcelComposables.push({composable: composable, amount: amount})
+      })
+    )
+    
+    return parcelComposables
+  }
+
   const placeComposable = async (tokenId: number, posX: number, posY: number) => {
-    return await contract.testTransfer(tokenId, posX, posY)
+    return await contract.testTransfert(tokenId, posX, posY)
   }
 
   return {
@@ -115,7 +137,9 @@ const useParcelContract = () => {
     getParcelGrid,
     claim,
     getAllComposablesNames,
-    buyComposable
+    buyComposable,
+    getParcelComposables,
+    placeComposable
   };
 };
 

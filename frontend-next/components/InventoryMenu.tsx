@@ -1,5 +1,6 @@
 import React from "react";
 import useInventory from "../hooks/useInventory";
+import usePlaceComposable from "../hooks/usePlaceComposable";
 import {
   IComposable,
   action,
@@ -18,6 +19,10 @@ const dummyInventory: IComposable[] = [castle, farm];
 
 const InventoryMenu: React.FC<Props> = ({ isOwner }) => {
   const inventory = useInventory();
+  const placeComposableMutation = usePlaceComposable();
+  const buttonCallback = (tokenId: number) => {
+    placeComposableMutation.mutateAsync({ posX: 1, posY: 1, tokenId: tokenId });
+  };
   return (
     <div className=" bg-white text-black w-full">
       <h2 className="font-unifraktur text-2xl mb-1">your inventory</h2>
@@ -30,7 +35,7 @@ const InventoryMenu: React.FC<Props> = ({ isOwner }) => {
               number={item.amount}
               Action={isOwner ? action.BUILD : action.NONE}
               display={display.MIN}
-              callback={() => alert("build not implemented TODO")}
+              callback={() => buttonCallback(1)}
             ></ComposableItem>
           );
         })}

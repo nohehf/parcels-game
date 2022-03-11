@@ -1,12 +1,13 @@
 import * as wagmi from "wagmi";
-import { useProvider, useSigner } from "wagmi";
+import { useAccount, useProvider, useSigner } from "wagmi";
 import type { BigNumber } from "ethers";
 // Import our contract ABI (a json representation of our contract's public interface).
 // The hardhat compiler writes this file to artifacts during compilation.
 import ItemsContract from "../../artifacts/contracts/ItemToken.sol/ItemToken.json";
 import { Composable } from "../types/Composable";
-import { itemsContractAddress } from "../settings";
-
+import { itemsContractAddress, parcelContractAddress } from "../settings";
+import { AbiCoder } from "ethers/lib/utils";
+import useParcelContract from "./useParcelContract";
 
 export enum EventType {
   CommentAdded = "CommentAdded",
@@ -43,8 +44,7 @@ const useItemContract = () => {
     addressOrName: itemsContractAddress,
     contractInterface: ItemsContract.abi,
     signerOrProvider: signer.data || provider,
-  });
-
+  }); 
   // Wrapper to add types to our getComments function.
   
   const getAllComposablesNames = async (): Promise<any> => {
@@ -78,12 +78,19 @@ const useItemContract = () => {
     return inventory
   }
 
+  const placeOnParcel = async (address: string, tokenId: number, posX:number, posY: number) => {
+    const abiCoder = new AbiCoder()
+    const encoded = abiCoder.encode(["uint", "uint"], [posX, posY]);
+    await contract.safeTransferFrom(address, parcelContractAddress, tokenId, 1 ,encoded )
+  }
+
   return {
     contract,
     chainId: contract.provider.network?.chainId,
     getAllComposablesNames,
     getAllComposables,
-    getInventory
+    getInventory,
+    placeOnParcel
   };
 };
 

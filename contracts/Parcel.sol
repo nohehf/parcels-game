@@ -287,7 +287,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
         itemContractAddress.mint(msg.sender, _tokenId, 1, "");
     }
 
-    function _getItemQuantity(uint _posX, uint _posY, uint _tokenId) private view returns(uint) {
+    function _getItemQuantity(uint _posX, uint _posY, uint _tokenId) public view returns(uint) {
         return itemQuantity[_posX][_posY][_tokenId];
     }
 
