@@ -1,15 +1,12 @@
 import { useQuery } from "react-query";
-import useParcelContract from "./useParcelContract"
+import { gridSize } from "../settings";
+import useParcelContract from "./useParcelContract";
 
-interface UseCommentsQuery {
-  topic: string;
-}
-
-const useParcelGrid = ({ topic }: UseCommentsQuery) => {
+const useParcelGrid = () => {
   const contract = useParcelContract();
-  return useQuery(["parcelGrid", { topic, chainId: contract.chainId }], () =>
-    contract.getParcelGrid(5,5)
+  return useQuery(["parcelGrid", { chainId: contract.chainId }], () =>
+    contract.getParcelGrid(gridSize[0], gridSize[1])
   );
 };
 
-export default useParcelGrid
+export default useParcelGrid;

@@ -19,9 +19,12 @@ async function main() {
 
   await parcelContract.deployed();
 
+  const maxX = 5;
+  const maxY = 5;
+
   //mint une grille de 5*5
-  for (let i = 0; i < 5; i++) {
-    for (let j = 0; j < 5; j++) {
+  for (let i = 0; i < maxX; i++) {
+    for (let j = 0; j < maxY; j++) {
       const tx1 = await parcelContract.parcelMint(
         i,
         j,
@@ -40,7 +43,7 @@ async function main() {
   console.log(
     `export const parcelContractAddress = "${
       parcelContract.address
-    }" \nexport const itemsContractAddress = "${await parcelContract.itemGetContract()}" \nexport const resContractAddress = "${await parcelContract.rewardGetContract()}"`
+    }" \nexport const itemsContractAddress = "${await parcelContract.itemGetContract()}" \nexport const resContractAddress = "${await parcelContract.rewardGetContract()}"\nexport const gridSize = [${maxX},${maxY}]`
   );
 
   //.....

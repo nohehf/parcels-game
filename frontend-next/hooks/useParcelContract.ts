@@ -9,22 +9,8 @@ import { getClaimableAmount } from "./utils";
 import { parcelContractAddress, resContractAddress } from "../settings";
 import useItemContract from "./useItemContract";
 import { Composable } from "../types/Composable";
+import { Parcel } from "../types/Composable";
 
-export interface Parcel {
-   posX: number;                     
-   posY: number;                      //Parcel posY  `8`
-   // fixed, contract logic
-   tokenId: number;
-   // mutable, user logic
-   name: string;                    //Parcel name `my_super_parcel`
-   // mutable, contract logic
-   dna: number;                       //Parcel dna `22_22`
-   lastClaimTime: Date;             //Parcel lastClaimTime : 1646771741 timestamp
-   productionRate: number;            //Parcel production_rate : $10Res/timestamp
-
-   owner: string
-
-}
 
 export enum EventType {
   CommentAdded = "CommentAdded",
@@ -75,17 +61,24 @@ const useParcelContract = () => {
 
   const getParcelGrid = async(gridWidth: number, gridHeight: number) => {
 
-    let parcels: Parcel[] = []
+    let parcels: Parcel[][] = []
     
     for (let i = 0; i < gridHeight; i++) {
       
-      for (let j = 0; j < gridHeight; j++) {
+      let col: Parcel[] = []
+
       
-        parcels.push(await getParcel(j,i))
+      for (let j = 0; j < gridWidth; j++) {
+      
+        col.push(await getParcel(j,i))
         
       }
+
+      parcels.push(col)
       
     }
+
+    return parcels
   
   }
 

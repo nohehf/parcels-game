@@ -42,3 +42,18 @@ export enum display {
   FULL = "full",
   MIN = "min",
 }
+
+export interface Parcel {
+  posX: number;
+  posY: number; //Parcel posY  `8`
+  // fixed, contract logic
+  tokenId: number;
+  // mutable, user logic
+  name: string; //Parcel name `my_super_parcel`
+  // mutable, contract logic
+  dna: number; //Parcel dna `22_22`
+  lastClaimTime: Date; //Parcel lastClaimTime : 1646771741 timestamp
+  productionRate: number; //Parcel production_rate : $10Res/timestamp
+
+  owner: string;
+}
