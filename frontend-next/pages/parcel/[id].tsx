@@ -13,6 +13,7 @@ import { formatAddress, getClaimableAmount } from "../../hooks/utils";
 import useParcelContract from "../../hooks/useParcelContract";
 import { useAccount } from "wagmi";
 import useParcelComposables from "../../hooks/useParcelComposables";
+import styles from "../../styles/clouds.module.css";
 
 const parcel = {
   income: 100,
@@ -50,13 +51,7 @@ const Parcel: NextPage = (params) => {
   const parcel_contract = useParcelContract();
 
   return (
-    <div
-      className="flex w-full justify-between text-center flex-shrink h-full"
-      style={{
-        backgroundImage: `url("/cloud_bg.svg")`,
-        backgroundSize: "cover",
-      }}
-    >
+    <div className={styles.cloud} id="cloud_background">
       <div className="w-full h-full">
         <Viewer3dNoSSR file="/parcel3d.glb" />
       </div>

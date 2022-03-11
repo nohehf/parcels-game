@@ -32,15 +32,14 @@ const ComposableItem: React.FC<Props> = ({
   number,
 }) => {
   return (
-    <div className="bg-white text-gray-800 p-2 font-almendra mb-3 rounded-xl flex items-center justify-between drop-shadow-xl">
+    <div className="bg-white text-gray-800 p-2 font-almendra mt-1 mb-1 rounded-xl flex items-center justify-between drop-shadow-xl">
       <div className="flex flex-col mr-2">
-        <h2 className="font-unifraktur text-2xl">
-          {number ? (
-            <div className="bg-lime-500 text-white rounded-full text-sm w-5 h-5 mb-[-30px] mr-[-100px]">
-              {number}
-            </div>
-          ) : null}
-
+        {number ? (
+          <div className="bg-lime-500 text-white rounded-full w-6 h-6 text-center leading-none text-xl align-text-top mt-[-20px] mb-[-15px] ml-[-20px]">
+            {number}
+          </div>
+        ) : null}
+        <h2 className=" text-center text-xl mt-[-5px]">
           {composable.name.toLowerCase()}
         </h2>
         <div className="flex items-center flex-col">
@@ -51,7 +50,7 @@ const ComposableItem: React.FC<Props> = ({
                 <TwemojiCoin className="mr-1" />
                 {composable.boost} $res/day
               </div>
-              <hr className="border-0.5 w-10 border-gray-300" />
+              <hr className="border-0.5 w-10 border-gray-300 m-auto" />
               <div className="flex text-left items-center">
                 <span className="w-1 mr-1">⎻</span>&nbsp;
                 <TwemojiCoin className="mr-1" />
