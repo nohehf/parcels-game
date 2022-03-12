@@ -9,8 +9,9 @@ import { itemsContractAddress, parcelContractAddress } from "../settings";
 import { AbiCoder } from "ethers/lib/utils";
 import useParcelContract from "./useParcelContract";
 
-export enum EventType {
-  CommentAdded = "CommentAdded",
+export enum EventTypesItem {
+  PlayerInventoryUpdated = "PlayerInventoryUpdated",
+  ParcelUpdated = "ParcelUpdated"
 }
 
 

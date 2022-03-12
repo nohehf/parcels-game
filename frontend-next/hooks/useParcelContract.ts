@@ -12,8 +12,9 @@ import { Composable } from "../types/Composable";
 import { Parcel } from "../types/Composable";
 
 
-export enum EventType {
+export enum EventTypesParcel {
   PlayerBalanceUpdated = "PlayerBalanceUpdated",
+  PlayerInventoryUpdated = "PlayerInventoryUpdated",
 }
 
 const useParcelContract = () => {

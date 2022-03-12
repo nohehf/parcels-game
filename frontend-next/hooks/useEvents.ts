@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useQueryClient } from "react-query";
 import { useAccount } from "wagmi";
-import useParcelContract, { EventType } from "./useParcelContract";
+import useItemContract, {EventTypesItem} from "./useItemContract";
+import useParcelContract, { EventTypesParcel} from "./useParcelContract";
 
 
 interface UseEventsQuery {
@@ -9,7 +10,7 @@ interface UseEventsQuery {
 }
 
 // Listen to events and refresh data
-const useEvents = () => {
+export const useBalanceEvents = () => {
   const queryClient = useQueryClient();
   const parcelContract = useParcelContract();
   const [{ data, error, loading }, disconnect] = useAccount();
@@ -28,12 +29,74 @@ const useEvents = () => {
       );
     };
 
-    parcelContract.contract.on(EventType.PlayerBalanceUpdated, handler);
+    parcelContract.contract.on(EventTypesParcel.PlayerBalanceUpdated, handler);
 
     return () => {
-      parcelContract.contract.off(EventType.PlayerBalanceUpdated, handler);
+      parcelContract.contract.off(EventTypesParcel.PlayerBalanceUpdated, handler);
     };
   }, [queryClient, parcelContract.chainId]);
 };
 
-export default useEvents;
+export const useInventoryEvents = () => {
+  const queryClient = useQueryClient();
+  const parcelContract = useParcelContract();
+  const itemContract = useItemContract()
+  const [{ data, error, loading }, disconnect] = useAccount();
+
+  useEffect(() => {
+    const handler = (address: string) => {
+      if (data?.address !== address) {
+        return;
+      }
+      // Invalidates the query whose query key matches the passed array.
+      // This will cause the useComments hook to re-render the Comments
+      // component with fresh data.
+      queryClient.invalidateQueries([
+        "inventory",
+        {chainId: parcelContract.chainId, connected: data?.address }],
+      );
+    };
+
+    parcelContract.contract.on(EventTypesParcel.PlayerInventoryUpdated, handler);
+
+    itemContract.contract.on(EventTypesItem.PlayerInventoryUpdated, handler);
+
+    return () => {
+      parcelContract.contract.off(EventTypesParcel.PlayerInventoryUpdated, handler);
+      itemContract.contract.off(EventTypesItem.PlayerInventoryUpdated, handler);
+    };
+  }, [queryClient, parcelContract.chainId, itemContract.chainId]);
+};
+
+export const useParcelEvents = (posX: number, posY: number) => {
+  const queryClient = useQueryClient();
+  const itemContract = useItemContract()
+  const parcelContract = useParcelContract()
+  const [{ data, error, loading }, disconnect] = useAccount();
+
+  useEffect(() => {
+    const handler = (posXonChain: string, posYonChain: string) => {
+      if (parseInt(posXonChain) !== posX || parseInt(posYonChain) !== posY) {
+        return;
+      }
+      // Invalidates the query whose query key matches the passed array.
+      // This will cause the useComments hook to re-render the Comments
+      // component with fresh data.
+      queryClient.invalidateQueries(
+        ["parcel", { posX, posY, chainId: parcelContract.chainId }],
+      );
+
+      queryClient.invalidateQueries(
+        ["parcelComposables", { posX, posY, chainId: parcelContract.chainId }],
+      );
+
+      
+    };
+
+    itemContract.contract.on(EventTypesItem.ParcelUpdated, handler);
+
+    return () => {
+      itemContract.contract.off(EventTypesItem.ParcelUpdated, handler);
+    };
+  }, [queryClient, itemContract.chainId]);
+};

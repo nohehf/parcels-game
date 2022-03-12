@@ -1,8 +1,6 @@
 import type { NextPage } from "next";
 
 import Grid from "../components/Grid";
-import useEvents from "../hooks/useEvents";
-
 const Home: NextPage = () => {
   return (
     <div

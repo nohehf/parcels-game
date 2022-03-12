@@ -8,7 +8,6 @@ import { QueryClient, QueryClientProvider, QueryCache } from "react-query";
 import { Provider as WagmiProvider } from "wagmi";
 import { Toaster, toast } from "react-hot-toast";
 import { providers } from "ethers";
-import useEvents from "../hooks/useEvents";
 
 // Provider that will be used when no wallet is connected (aka no signer)
 const provider = providers.getDefaultProvider("http://localhost:8545");

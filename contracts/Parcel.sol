@@ -29,6 +29,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
     }
 
     event PlayerBalanceUpdated(address add);
+    event PlayerInventoryUpdated(address add);
 
     ////////////////////////////////////////////////////////////
     /////////////////////// Public Data ////////////////////////
@@ -117,6 +118,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
         _burnRewardToken(item.price);
         _mintItem(item.tokenId);
         emit PlayerBalanceUpdated(msg.sender);
+        emit PlayerInventoryUpdated(msg.sender);
     }
 
     function testTransfert(uint _tokenId, uint _destinationPosX, uint _destinationPosY) external {

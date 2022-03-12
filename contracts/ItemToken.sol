@@ -17,6 +17,9 @@ contract ItemToken is ERC1155PresetMinterPauser {
         //0 = only one per kind, other = n per id.
     }
 
+    event PlayerInventoryUpdated(address add);
+    event ParcelUpdated(uint posX,uint posY);
+
     ////////////////////////////////////////////////////////////
     ///////////////////// External Function ////////////////////
     ///////////////////// Token Getter View
@@ -71,6 +74,13 @@ contract ItemToken is ERC1155PresetMinterPauser {
     }
     function mint(address to, uint256 id, uint256 amount, bytes memory data) public override {
         super.mint(to, id, amount, data);
+    }
+
+    function safeTransferFrom(address from,address to,uint id,uint amount,bytes memory data) public override {
+        super.safeTransferFrom(from,to,id,amount,data);
+        emit PlayerInventoryUpdated(msg.sender);
+        (uint posX,uint posY) = abi.decode(data, (uint, uint));
+        emit ParcelUpdated(posX, posY);
     }
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////

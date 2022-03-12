@@ -1,4 +1,5 @@
 import React from "react";
+import { useInventoryEvents } from "../hooks/useEvents";
 import useInventory from "../hooks/useInventory";
 import usePlaceComposable from "../hooks/usePlaceComposable";
 import {
@@ -20,6 +21,7 @@ interface Props {
 const dummyInventory: IComposable[] = [castle, farm];
 
 const InventoryMenu: React.FC<Props> = ({ isOwner, posX, posY }) => {
+  useInventoryEvents();
   const inventory = useInventory();
   const placeComposableMutation = usePlaceComposable();
   const buttonCallback = (tokenId: number) => {
@@ -40,7 +42,7 @@ const InventoryMenu: React.FC<Props> = ({ isOwner, posX, posY }) => {
               composable={item.composable}
               number={item.amount}
               Action={isOwner ? action.BUILD : action.NONE}
-              display={display.MIN}
+              Display={display.MIN}
               callback={() => buttonCallback(item.composable.tokenId)}
             ></ComposableItem>
           );

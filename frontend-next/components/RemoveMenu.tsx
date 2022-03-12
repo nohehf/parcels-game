@@ -1,4 +1,5 @@
 import React from "react";
+import { useParcelEvents } from "../hooks/useEvents";
 import useParcelComposables from "../hooks/useParcelComposables";
 import useRemoveComposable from "../hooks/useRemoveComposable";
 import {
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const RemoveMenu: React.FC<Props> = ({ isOwner, posX, posY }) => {
+  useParcelEvents(posX, posY);
   const parcelComposables = useParcelComposables({
     posX: posX,
     posY: posY,
