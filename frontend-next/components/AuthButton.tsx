@@ -3,26 +3,44 @@ import { useAccount, useConnect } from "wagmi";
 import toast from "react-hot-toast";
 
 const AuthButton: React.FunctionComponent<any> = (props) => {
-  const [connectQuery, connect] = useConnect();
+  const [{ data, error, loading }, connect] = useConnect();
   const [accountQuery] = useAccount();
 
   React.useEffect(() => {
-    if (connectQuery.error?.name === "ConnectorNotFoundError") {
+    if (error?.name === "ConnectorNotFoundError") {
       toast.error("MetaMask extension required to sign in");
     }
-  }, [connectQuery.error]);
+  }, [error]);
+
+  const providerOptions = {
+    /* See Provider Options Section */
+  };
 
   // If not authenticated, require sign-in
   if (!accountQuery.data?.address) {
     return (
-      <button
-        {...props}
-        onClick={() => {
-          connect(connectQuery.data.connectors[0]);
-        }}
-      >
-        Sign In
-      </button>
+      //test actuel
+      <>
+        <div>Connected: {data.connected.toString()}</div>
+
+        {data.connectors.map((x) => (
+          <button key={x.name} onClick={() => connect(x)}>
+            {x.name}
+          </button>
+        ))}
+      </>
+      //code original :
+
+      // <button
+      //   onClick={() => {
+      //     connect(connectQuery.data.connectors[0]);
+      //   }}
+      // >
+      //   Sign In
+      // </button>
+
+      //truc qui marche pas
+      // <web3Modal />
     );
   }
 

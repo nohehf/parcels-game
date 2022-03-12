@@ -28,8 +28,14 @@ const SelectedMenu: React.FC<{ parcel: Parcel | null }> = ({ parcel }) => {
   return (
     <div className="bg-white backdrop-blur-md bg-opacity-75 text-gray-700 overflow-hidden rounded-xl mt-2 mb-3 mr-3">
       <div className="flex flex-col justify-start bg-white rounded-xl m-2 p-2 px-4">
-        <h2 className="font-unifraktur text-2xl text-left">{parcel?.name}</h2>
-        <Res amount={parcel?.productionRate || 0}>/day</Res>
+        <div>
+          <h2 className="font-unifraktur text-2xl text-left">{parcel?.name}</h2>
+          <Res amount={parcel?.productionRate || 0}>/day</Res>
+        </div>
+
+        <div>
+          <div>owned by: {parcel.owner}</div>
+        </div>
       </div>
     </div>
   );

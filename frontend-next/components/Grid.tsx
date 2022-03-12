@@ -18,7 +18,11 @@ const Grid = ({ selected, setSelected }: Props) => {
   const parcelGrid = useParcelGrid();
   if (parcelGrid.data) {
     return (
-      <TransformWrapper>
+      <TransformWrapper
+        initialScale={0.9}
+        initialPositionX={10}
+        initialPositionY={10}
+      >
         <TransformComponent>
           {parcelGrid.data && (
             <div className="w-full">
