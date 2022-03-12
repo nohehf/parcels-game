@@ -57,11 +57,11 @@ const Parcel: NextPage = (params) => {
   const [menu, setMenu] = useState(action.REMOVE);
 
   return (
-    <div className={styles.cloud} id="cloud_background w-full">
+    <div className={styles.container}>
       <div className="w-1/2 max-h-full flex-col flex">
         <Viewer3dNoSSR file="/parcel3d.glb" />
       </div>
-      <div className="bg-white backdrop-blur-md bg-opacity-75 text-gray-700 overflow-hidden rounded-xl my-3 mr-3 w-1/2">
+      <div className="bg-white backdrop-blur-md bg-opacity-75 text-gray-700 overflow-hidden rounded-xl mt-2 mb-3 mr-3 w-1/2">
         <div className="h-[25%]">
           <ParcelInfo
             isOwner={isOwner()}
@@ -139,7 +139,13 @@ const MenuSelect: React.FC<{
         return base + " outline-orange-400 outline outline-4";
       }
     } else {
-      return base;
+      if (Action === action.REMOVE) {
+        return base + " hover:outline-red-400 hover:outline outline-4";
+      } else if (Action === action.BUILD) {
+        return base + " hover:outline-purple-400 hover:outline outline-4";
+      } else {
+        return base + " hover:outline-orange-400 hover:outline outline-4";
+      }
     }
   };
 

@@ -5,7 +5,6 @@
   100% {
     background-position: 1920px 0;
   }
-
 }
 
 .cloud {
@@ -16,5 +15,19 @@
   justify-content: space-between;
   width: 100%;
   height: 100%;
+  animation: animatedBackground 100s linear infinite;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.cloudBg {
+  background-image: url("/clouds3d.png");
+  background-position: 0px 0px;
+  background-repeat: repeat;
   animation: animatedBackground 100s linear infinite;
 }
