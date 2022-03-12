@@ -52,7 +52,7 @@ export interface Parcel {
   name: string; //Parcel name `my_super_parcel`
   // mutable, contract logic
   dna: number; //Parcel dna `22_22`
-  lastClaimTime: Date; //Parcel lastClaimTime : 1646771741 timestamp
+  lastClaimTime: number; //Parcel lastClaimTime : 1646771741 timestamp
   productionRate: number; //Parcel production_rate : $10Res/timestamp
 
   owner: string;

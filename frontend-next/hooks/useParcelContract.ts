@@ -15,6 +15,7 @@ import { Parcel } from "../types/Composable";
 export enum EventTypesParcel {
   PlayerBalanceUpdated = "PlayerBalanceUpdated",
   PlayerInventoryUpdated = "PlayerInventoryUpdated",
+  ParcelUpdated = "ParcelUpdated"
 }
 
 const useParcelContract = () => {
@@ -52,7 +53,7 @@ const useParcelContract = () => {
       tokenId:  parseInt(rawParcel[2]),
       name: rawParcel[3],
       dna: parseInt(rawParcel[4]),
-      lastClaimTime: new Date(parseInt(rawParcel[5])*1000),
+      lastClaimTime: parseInt(rawParcel[5])*1000,
       productionRate: parseInt(rawParcel[6]),
       owner: ""
     }

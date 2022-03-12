@@ -14,6 +14,7 @@ import useParcelContract from "../../hooks/useParcelContract";
 import { useAccount } from "wagmi";
 import useParcelComposables from "../../hooks/useParcelComposables";
 import styles from "../../styles/clouds.module.css";
+import { useParcelEvents } from "../../hooks/useEvents";
 
 const parcel = {
   income: 100,
@@ -49,6 +50,8 @@ const Parcel: NextPage = (params) => {
   };
 
   const parcel_contract = useParcelContract();
+
+  useParcelEvents(posX, posY);
 
   return (
     <div className={styles.cloud} id="cloud_background">

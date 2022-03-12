@@ -76,6 +76,7 @@ export const useParcelEvents = (posX: number, posY: number) => {
 
   useEffect(() => {
     const handler = (posXonChain: string, posYonChain: string) => {
+
       if (parseInt(posXonChain) !== posX || parseInt(posYonChain) !== posY) {
         return;
       }
@@ -94,9 +95,11 @@ export const useParcelEvents = (posX: number, posY: number) => {
     };
 
     itemContract.contract.on(EventTypesItem.ParcelUpdated, handler);
+    parcelContract.contract.on(EventTypesParcel.ParcelUpdated, handler);
 
     return () => {
       itemContract.contract.off(EventTypesItem.ParcelUpdated, handler);
+      parcelContract.contract.off(EventTypesParcel.ParcelUpdated, handler);
     };
   }, [queryClient, itemContract.chainId]);
 };

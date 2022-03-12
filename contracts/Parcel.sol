@@ -30,6 +30,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
 
     event PlayerBalanceUpdated(address add);
     event PlayerInventoryUpdated(address add);
+    event ParcelUpdated(uint posX,uint posY);
 
     ////////////////////////////////////////////////////////////
     /////////////////////// Public Data ////////////////////////
@@ -110,6 +111,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
         rewardContractAddress.mint(msg.sender, reward_to_mint);
         _resetClaimTime(parcelStruct);
         emit PlayerBalanceUpdated(msg.sender);
+        emit ParcelUpdated(_posX, _posY);
     }
     //////////////////// Item 
      function itemBuy(string memory _name) external {
