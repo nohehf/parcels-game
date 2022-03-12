@@ -36,7 +36,8 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
 
     ////////////////////////////////////////////////////////////
     /////////////////////// Public Data ////////////////////////
-    string public baseStorage;
+    string public baseStorage = "https://zeus.blanchon.cc/dropshare/";
+    string public externalURL = "https://zeus.blanchon.cc/";
 
     function tokenURI(uint256 tokenId) override(ERC721) public view returns (string memory) {
         uint[2] memory Pos = getPosFromId(tokenId);
@@ -46,30 +47,59 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         string memory json = Base64.encode(
             bytes(
                 abi.encodePacked(
-                    '{"name": "', parcel.name, '",',
+                    '{"name": "', getName(posX, posY), '",',
                     '"image_data": "', getImageData(posX, posY, tokenId), '",',
-                    '"external_url": "https://zeus.blanchon.cc",',
-                    '"description": "Description",',
+                    '"external_url": "', getExternalURL(posX, posY, tokenId), '",',
+                    '"description": "', getDescription(posX, posY, tokenId), '",',
                     '"animation_url": "', get3DData(posX, posY, tokenId), '",',
-                    '"attributes": [{"trait_type": "Speed", "value": ', Base64.uint2str(parcel.dna), '}',
-                    ']}'
+                    '"attributes": "', getAttributes(posX, posY, tokenId), '}'
             ))
         );
         return string(abi.encodePacked('data:application/json;base64,', json));
     }
 
+    function getAttributes(uint posX, uint posY, uint tokenId) private view returns(string memory) {
+        string memory attributesString = string(
+            bytes.concat(
+                abi.encodePacked(
+                '{"trait_type": "HUT", "value": ', Base64.uint2str(itemQuantity[posX][posY][1]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][1]),
+                '{"trait_type": "FARM", "value": ', Base64.uint2str(itemQuantity[posX][posY][2]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][2]),
+                '{"trait_type": "CASTLE", "value": ', Base64.uint2str(itemQuantity[posX][posY][3]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][3]),
+                '{"trait_type": "FENCE", "value": ', Base64.uint2str(itemQuantity[posX][posY][4]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][4])
+                ),
+                abi.encodePacked(
+                '{"trait_type": "MOAT", "value": ', Base64.uint2str(itemQuantity[posX][posY][5]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][5]),
+                '{"trait_type": "MINE", "value": ', Base64.uint2str(itemQuantity[posX][posY][6]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][6]),
+                '{"trait_type": "PIT", "value": ', Base64.uint2str(itemQuantity[posX][posY][7]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][7]),
+                '"production_rate", "value": ', Base64.uint2str(getProductionRate(posX, posY)), ', "display_type" : boost_number'
+                )
+            ));
+        return attributesString;
+    }
     function getImageData(uint posX, uint posY, uint tokenId) private view returns(string memory) {
         uint ImageId = _getItemQuantity(posX, posY, tokenId);
-        return string(abi.encodePacked("https://zeus.blanchon.cc/dropshare/", Base64.uint2str(ImageId), ".jpeg"));
+        return string(abi.encodePacked(baseStorage, Base64.uint2str(ImageId), ".jpeg"));
     }
 
     function get3DData(uint posX, uint posY, uint tokenId) private view returns(string memory) {
         uint ImageId = _getItemQuantity(posX, posY, tokenId);
-        return string(abi.encodePacked("https://zeus.blanchon.cc/dropshare/", Base64.uint2str(ImageId), ".glb"));
+        return string(abi.encodePacked(baseStorage, Base64.uint2str(ImageId), ".glb"));
+    }
+
+    function getDescription(uint posX, uint posY, uint tokenId) private view returns(string memory) {
+        return "Parcel Game NFT";
+    }
+
+    function getExternalURL(uint posX, uint posY, uint tokenId) private view returns(string memory) {
+        return externalURL;
     }
 
     function setBaseStorage(string memory _newBaseStorage) public onlyOwner {
         baseStorage = _newBaseStorage;
+    }
+
+    function setExternalURL(string memory _newExternalURL) public onlyOwner {
+        externalURL = _newExternalURL;
     }
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -83,7 +113,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
     }
     //////////////////// Parcel Getter View
     // Get Parcel Name
-    function getName(uint _posX, uint _posY) external view returns(string memory) {
+    function getName(uint _posX, uint _posY) public view returns(string memory) {
         require(_exists(posToId[_posX][_posY]), "ParcelHelper: this parcel don't exist yet");
         return Board[_posX][_posY].name;
     }
@@ -98,7 +128,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         return Board[_posX][_posY].lastClaimTime;
     }
     // Get Parcel ProductionRate
-    function getProductionRate(uint _posX, uint _posY) external view returns(uint) {
+    function getProductionRate(uint _posX, uint _posY) public view returns(uint) {
         require(_exists(posToId[_posX][_posY]), "ParcelHelper: this parcel don't exist yet");
         return Board[_posX][_posY].productionRate;
     }
@@ -164,9 +194,18 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         itemContractAddress.safeTransferFrom(msg.sender, address(this), _tokenId, 1, abi.encode(_destinationPosX, _destinationPosY));
     }
 
-    function itemShowBalance(uint _tokenId) external view returns(uint) {
+    function itemShowBalance(uint _tokenId) public view returns(uint) {
         return itemContractAddress.balanceOf(msg.sender, _tokenId);
     }
+
+    function itemShowBalanceOf(address _wallet, uint _tokenId) public view returns(uint) {
+        return itemContractAddress.balanceOf(_wallet, _tokenId);
+    }
+
+    function itemChangeOrientation(uint _posX, uint _posY, uint _tokenId, uint _newOrientation) public {
+        itemOrientation[_posX][_posY][_tokenId] = _newOrientation;
+    }
+
     
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -192,6 +231,8 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
 
     mapping (uint => mapping(uint => mapping(uint => uint))) public itemQuantity;
     // posX, posY, tokenId, itemQuantity
+    mapping (uint => mapping(uint => mapping(uint => uint))) public itemOrientation;
+    // posX, posY, tokenId, itemOrientation
     mapping (uint => mapping (uint => mapping(uint => uint))) private KindQuantity;
     // posX, posY, kind, kindQuantity
     ////////////////////////////////////////////////////////////
@@ -350,6 +391,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         require(from==ownerOf(getIdFromPos(posX, posY)), "You must be the owner of this land");
         require(_isItemMaximumPolicyRespected(posX, posY, item.kind, item.tokenId), "Not enough space on this land");
         itemQuantity[posX][posY][item.tokenId]++;
+        itemOrientation[posX][posY][item.tokenId] = 45; //TODO: Randomize
         KindQuantity[posX][posY][item.kind]++;    
         return bytes4(keccak256("onERC1155Received(address,address,uint256,uint256,bytes)"));
     }
