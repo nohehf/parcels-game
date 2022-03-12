@@ -52,7 +52,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
                     '"external_url": "', getExternalURL(posX, posY, tokenId), '",',
                     '"description": "', getDescription(posX, posY, tokenId), '",',
                     '"animation_url": "', get3DData(posX, posY, tokenId), '",',
-                    '"attributes": "', getAttributes(posX, posY, tokenId), '}'
+                    '"attributes": [', getAttributes(posX, posY, tokenId), ']}'
             ))
         );
         return string(abi.encodePacked('data:application/json;base64,', json));
@@ -62,16 +62,20 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         string memory attributesString = string(
             bytes.concat(
                 abi.encodePacked(
-                '{"trait_type": "HUT", "value": ', Base64.uint2str(itemQuantity[posX][posY][1]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][1]),
-                '{"trait_type": "FARM", "value": ', Base64.uint2str(itemQuantity[posX][posY][2]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][2]),
-                '{"trait_type": "CASTLE", "value": ', Base64.uint2str(itemQuantity[posX][posY][3]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][3]),
-                '{"trait_type": "FENCE", "value": ', Base64.uint2str(itemQuantity[posX][posY][4]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][4])
+                '{"trait_type": "HUT", "value": ', Base64.uint2str(itemQuantity[posX][posY][1]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][1]), '},'
+                '{"trait_type": "FARM", "value": ', Base64.uint2str(itemQuantity[posX][posY][2]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][2]), '},'
                 ),
                 abi.encodePacked(
-                '{"trait_type": "MOAT", "value": ', Base64.uint2str(itemQuantity[posX][posY][5]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][5]),
-                '{"trait_type": "MINE", "value": ', Base64.uint2str(itemQuantity[posX][posY][6]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][6]),
-                '{"trait_type": "PIT", "value": ', Base64.uint2str(itemQuantity[posX][posY][7]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][7]),
-                '"production_rate", "value": ', Base64.uint2str(getProductionRate(posX, posY)), ', "display_type" : boost_number'
+                '{"trait_type": "CASTLE", "value": ', Base64.uint2str(itemQuantity[posX][posY][3]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][3]), '},'
+                '{"trait_type": "FENCE", "value": ', Base64.uint2str(itemQuantity[posX][posY][4]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][4]), '},'
+                ),
+                abi.encodePacked(
+                '{"trait_type": "MOAT", "value": ', Base64.uint2str(itemQuantity[posX][posY][5]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][5]), '},'
+                '{"trait_type": "MINE", "value": ', Base64.uint2str(itemQuantity[posX][posY][6]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][6]), '},'
+                ),
+                abi.encodePacked(
+                '{"trait_type": "PIT", "value": ', Base64.uint2str(itemQuantity[posX][posY][7]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][7]), '},'
+                '{"trait_type": "production_rate", "value": ', Base64.uint2str(getProductionRate(posX, posY)), ', "display_type" : "boost_number" }'
                 )
             ));
         return attributesString;
