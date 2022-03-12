@@ -11,12 +11,12 @@ const Nav: React.FC<Props> = ({}) => {
   return (
     <nav className="flex h-full p-0.5 px-2 justify-between items-center w-full text-white">
       <div className="flex text-xl w-[35%]">
-        <div className="mr-3 bg-blue-900 bg-opacity-40 hover:bg-opacity-60 p-1 rounded-xl">
+        <div className="mr-3 bg-blue-900 bg-opacity-40 hover:bg-opacity-60 p-1 px-2 rounded-xl">
           <Link href={"/"}>
             <IcRoundHome />
           </Link>
         </div>
-        <div className="bg-blue-900 bg-opacity-40 hover:bg-opacity-50 p-1 rounded-xl">
+        <div className="bg-blue-900 bg-opacity-40 hover:bg-opacity-50 p-1 px-2 rounded-xl">
           <Link href={"/"}>
             <IcBaselineGridOn />
           </Link>
