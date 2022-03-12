@@ -42,6 +42,9 @@ contract ItemToken is ERC1155PresetMinterPauser {
 
     function getAllItemsBalances() external view returns(uint[] memory) {
         uint256[] memory balances = new uint256[](shopItemName.length);
+        if (msg.sender==address(0)) {
+            return balances;
+        }
         for (uint256 index = 1; index < shopItemName.length + 1; index++) {
             balances[index - 1] = balanceOf(msg.sender, index);
         }
