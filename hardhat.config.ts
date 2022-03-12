@@ -41,13 +41,16 @@ const config: HardhatUserConfig = {
   networks: {
     localhost: {
       url: "http://127.0.0.1:8545",
-      gasMultiplier: 10000,
+      // gasMultiplier: 10000,
+      // blockGasLimit: 100000000429720,
+      gas: 100000000000,
       allowUnlimitedContractSize: true,
     },
     hardhat: {
       chainId: 1337,
       inject: false, // optional. If true, it will EXPOSE your mnemonic in your frontend code. Then it would be available as an "in-page browser wallet" / signer which can sign without confirmation.
       gas: 4698712,
+      blockGasLimit: 100000000429720,
       gasPrice: 25000000000,
       allowUnlimitedContractSize: true,
       accounts: {
@@ -82,7 +85,7 @@ const config: HardhatUserConfig = {
         settings: {
           optimizer: {
             enabled: true,
-            runs: 200,
+            runs: 1,
           },
         },
       },

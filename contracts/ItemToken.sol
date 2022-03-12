@@ -7,14 +7,22 @@ contract ItemToken is ERC1155PresetMinterPauser {
 
     constructor() ERC1155PresetMinterPauser("https://ipfs/{id}/dna}") {
         //addItemToShop(tokenId, name, kind, level, price, boost, maximum)
-        addItemToShop(1, "HUT", 1, 1, 100, 100, 0);
-        addItemToShop(2, "FARM", 1, 2, 200, 200, 0);
-        addItemToShop(3, "CASTLE", 1, 3, 300, 300, 0);
-        addItemToShop(4, "FENCE", 2, 1, 100, 100, 1);
-        addItemToShop(5, "MOAT", 2, 2, 200, 200, 1);
-        addItemToShop(6, "MINE", 3, 1, 100, 100, 1);
-        addItemToShop(7, "PIT", 3, 2, 200, 200, 2);
-        //0 = only one per kind, other = n per id.
+        addItemToShop(1, "HUT", 1, 1, 100, 100, 0);             // B.House          1_______________
+        addItemToShop(2, "FARM", 1, 2, 200, 200, 0);            // B.Ferme          _1______________
+        addItemToShop(3, "CASTLE", 1, 3, 300, 300, 0);          // B.Chateau        __1_____________
+        addItemToShop(4, "FENCE", 2, 1, 100, 100, 1);           // C.Muraille2      ___1____________
+        addItemToShop(5, "MOAT", 2, 2, 200, 200, 1);            // C.Douve          ____1___________
+        addItemToShop(6, "MINE", 3, 1, 100, 100, 1);            // R.Mine           _____1__________
+        addItemToShop(7, "PIT", 3, 2, 200, 200, 1);             // R.Puit           ______1_________
+        addItemToShop(8, "WINDMILL", 3, 2, 200, 200, 1);        // Moulin           _______1________
+        addItemToShop(9, "DEFENCE_TOWER", 3, 2, 200, 200, 1);   // Tour carré       ________1_______
+        addItemToShop(10, "TENT", 3, 2, 200, 200, 1);           // D.Tente          _________1______
+        addItemToShop(11, "CART", 3, 2, 200, 200, 1);           // Chariot          __________1_____
+        addItemToShop(12, "CAT", 3, 2, 200, 200, 1);            // Animaux/Chat     ___________1____
+        addItemToShop(13, "DOG", 3, 2, 200, 200, 1);            // Animaux/Chient   ____________1___
+        addItemToShop(14, "CHICKENS", 3, 2, 200, 200, 1);       // Animaux/Poule    _____________1__
+        addItemToShop(15, "ETANG", 3, 2, 200, 200, 1);          // Etang            ______________1_
+        addItemToShop(16, "BENCH", 3, 2, 200, 200, 1);          // Banc             _______________1
     }
 
     event PlayerInventoryUpdated(address add);

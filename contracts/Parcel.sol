@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.7.0 <0.9.0;
+pragma experimental ABIEncoderV2;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 
@@ -36,7 +37,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
 
     ////////////////////////////////////////////////////////////
     /////////////////////// Public Data ////////////////////////
-    string public baseStorage = "https://zeus.blanchon.cc/dropshare/";
+    string public baseStorage = "https://zeus.blanchon.cc/dropshare/renders/";
     string public externalURL = "https://zeus.blanchon.cc/";
 
     function tokenURI(uint256 tokenId) override(ERC721) public view returns (string memory) {
@@ -46,11 +47,11 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         string memory json = Base64.encode(
             bytes(
                 abi.encodePacked(
-                    '{"name": "', getName(posX, posY), '",',
-                    '"image_data": "', getImageData(posX, posY, tokenId), '",',
+                    '{"name": "', Board[posX][posY].name, '",',
+                    '"image_data": "', getURIData1(posX, posY), '.jpeg",',
                     // '"external_url": "', getExternalURL(posX, posY, tokenId), '",',
                     // '"description": "', getDescription(posX, posY, tokenId), '",',
-                    '"animation_url": "', get3DData(posX, posY, tokenId), '",'
+                    '"animation_url": "', getURIData1(posX, posY), '.glb",'
                     // '"attributes": [', getAttributes(posX, posY, tokenId), ']}'
             ))
         );
@@ -77,19 +78,60 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
                     ),
                     abi.encodePacked(
                     '{"trait_type": "PIT", "value": ', Base64.uint2str(itemQuantity[posX][posY][7]), '},'
-                    '{"trait_type": "production_rate", "value": ', Base64.uint2str(getProductionRate(posX, posY)), ', "display_type" : "boost_number" }'
+                    '{"trait_type": "production_rate", "value": ', Base64.uint2str(Board[posX][posY].productionRate), ', "display_type" : "boost_number" }'
                     )
                 )
             ));
     }
-    function getImageData(uint posX, uint posY, uint tokenId) private view returns(string memory) {
-        uint ImageId = _getItemQuantity(posX, posY, tokenId);
-        return string(abi.encodePacked(baseStorage, Base64.uint2str(ImageId), ".jpeg"));
+
+    function getURIData(uint posX, uint posY) private view returns(string memory) {
+        string memory MAP_ID1 = getURIData1(posX, posY);
+        string memory MAP_ID2 = getURIData2(posX, posY);
+        return string(abi.encodePacked(baseStorage, MAP_ID1, MAP_ID1));
+    }
+    function getURIData1(uint posX, uint posY) private view returns(string memory) {
+        uint8 HUT_ID = _getItemQuantity(posX, posY, 1);
+        uint8 FARM_ID = _getItemQuantity(posX, posY, 2);
+        uint8 CASTLE_ID = _getItemQuantity(posX, posY, 3);
+        uint8 FENCE_ID = _getItemQuantity(posX, posY, 4);
+        uint8 MOAT_ID = _getItemQuantity(posX, posY, 5);
+        uint8 MINE_ID = _getItemQuantity(posX, posY, 6);
+        uint8 PIT_ID = _getItemQuantity(posX, posY, 7);
+        uint8 WINDMILL_ID = _getItemQuantity(posX, posY, 8);
+
+        string memory MAP_ID1 = string(
+            abi.encodePacked(Base64.uint2str(HUT_ID),
+                Base64.uint2str(FARM_ID),
+                Base64.uint2str(CASTLE_ID), 
+                Base64.uint2str(FENCE_ID),
+                Base64.uint2str(MOAT_ID),
+                Base64.uint2str(MINE_ID),
+                Base64.uint2str(PIT_ID),
+                Base64.uint2str(WINDMILL_ID)));
+        return MAP_ID1;
     }
 
-    function get3DData(uint posX, uint posY, uint tokenId) private view returns(string memory) {
-        uint ImageId = _getItemQuantity(posX, posY, tokenId);
-        return string(abi.encodePacked(baseStorage, Base64.uint2str(ImageId), ".glb"));
+    function getURIData2(uint posX, uint posY) private view returns(string memory) {
+        uint8 DEFENCE_TOWER_ID = _getItemQuantity(posX, posY, 9);
+        uint8 TENT_ID = _getItemQuantity(posX, posY, 10);
+        uint8 CART_ID = _getItemQuantity(posX, posY, 11);
+        uint8 CAT_ID = _getItemQuantity(posX, posY, 12);
+        uint8 DOG_ID = _getItemQuantity(posX, posY, 13);
+        uint8 CHICKENS_ID = _getItemQuantity(posX, posY, 14);
+        uint8 ETANG_ID = _getItemQuantity(posX, posY, 15);
+        uint8 BENCH_ID = _getItemQuantity(posX, posY, 16);
+
+        string memory MAP_ID2 = string(
+            abi.encodePacked(Base64.uint2str(DEFENCE_TOWER_ID),
+                Base64.uint2str(TENT_ID),
+                Base64.uint2str(CART_ID), 
+                Base64.uint2str(CAT_ID), 
+                Base64.uint2str(DOG_ID), 
+                Base64.uint2str(CHICKENS_ID), 
+                Base64.uint2str(ETANG_ID), 
+                Base64.uint2str(BENCH_ID)
+                ));
+        return MAP_ID2;
     }
 
     function getDescription(uint posX, uint posY, uint tokenId) private view returns(string memory) {
@@ -196,9 +238,9 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         emit PlayerInventoryUpdated(msg.sender);
     }
 
-    function testTransfert(uint _tokenId, uint _destinationPosX, uint _destinationPosY) external {
-        itemContractAddress.safeTransferFrom(msg.sender, address(this), _tokenId, 1, abi.encode(_destinationPosX, _destinationPosY));
-    }
+    // function testTransfert(uint _tokenId, uint _destinationPosX, uint _destinationPosY) external {
+    //     itemContractAddress.safeTransferFrom(msg.sender, address(this), _tokenId, 1, abi.encode(_destinationPosX, _destinationPosY));
+    // }
 
     function itemShowBalance(uint _tokenId) public view returns(uint) {
         return itemContractAddress.balanceOf(msg.sender, _tokenId);
@@ -208,9 +250,6 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         return itemContractAddress.balanceOf(_wallet, _tokenId);
     }
 
-    function itemChangeOrientation(uint _posX, uint _posY, uint _tokenId, uint _newOrientation) public {
-        itemOrientation[_posX][_posY][_tokenId] = _newOrientation;
-    }
 
     
     ////////////////////////////////////////////////////////////
@@ -235,9 +274,9 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
     mapping (uint => uint[2]) internal idToPos;
     mapping (uint => mapping(uint => uint)) internal posToId;
 
-    mapping (uint => mapping(uint => mapping(uint => uint))) public itemQuantity;
+    mapping (uint => mapping(uint => mapping(uint => uint8))) public itemQuantity;
     // posX, posY, tokenId, itemQuantity
-    mapping (uint => mapping(uint => mapping(uint => uint))) public itemOrientation;
+    // mapping (uint => mapping(uint => mapping(uint => uint))) public itemOrientation;
     // posX, posY, tokenId, itemOrientation
     mapping (uint => mapping (uint => mapping(uint => uint))) private KindQuantity;
     // posX, posY, kind, kindQuantity
@@ -249,7 +288,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
     ////////////////////////// Config //////////////////////////
     uint maxX = 10;                     // Default Weight
     uint maxY = 10;                     // Default Height
-    uint initialProductionRate = 100;    // Initial ProductionRate
+    uint initialProductionRate = 100;   // Initial ProductionRate
     uint maxProductionRate = 9990;      // Max ProductionRate
 
     //// Administration (onlyOwner) function
@@ -374,7 +413,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         itemContractAddress.mint(msg.sender, _tokenId, 1, "");
     }
 
-    function _getItemQuantity(uint _posX, uint _posY, uint _tokenId) public view returns(uint) {
+    function _getItemQuantity(uint _posX, uint _posY, uint _tokenId) public view returns(uint8) {
         return itemQuantity[_posX][_posY][_tokenId];
     }
 
@@ -397,7 +436,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         require(from==ownerOf(getIdFromPos(posX, posY)), "You must be the owner of this land");
         require(_isItemMaximumPolicyRespected(posX, posY, item.kind, item.tokenId), "Not enough space on this land");
         itemQuantity[posX][posY][item.tokenId]++;
-        itemOrientation[posX][posY][item.tokenId] = 45; //TODO: Randomize
+        // itemOrientation[posX][posY][item.tokenId] = 45; //TODO: Randomize
         KindQuantity[posX][posY][item.kind]++;    
         return bytes4(keccak256("onERC1155Received(address,address,uint256,uint256,bytes)"));
     }
