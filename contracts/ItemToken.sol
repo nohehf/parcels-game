@@ -9,7 +9,7 @@ contract ItemToken is ERC1155PresetMinterPauser {
         //addItemToShop(tokenId, name, kind, level, price, boost, maximum)
         addItemToShop(1, "HUT", 1, 1, 100, 100, 0);
         addItemToShop(2, "FARM", 1, 2, 200, 200, 0);
-        addItemToShop(3, "CASLE", 1, 3, 300, 300, 0);
+        addItemToShop(3, "CASTLE", 1, 3, 300, 300, 0);
         addItemToShop(4, "FENCE", 2, 1, 100, 100, 1);
         addItemToShop(5, "MOAT", 2, 2, 200, 200, 1);
         addItemToShop(6, "MINE", 3, 1, 100, 100, 1);

@@ -19,10 +19,10 @@ async function main() {
 
   await parcelContract.deployed();
 
-  const maxX = 5;
-  const maxY = 5;
+  const maxX = 2; //5
+  const maxY = 2; //5
 
-  //mint une grille de 5*5
+  //mint une grille de maxX*maxY
   for (let i = 0; i < maxX; i++) {
     for (let j = 0; j < maxY; j++) {
       const tx1 = await parcelContract.parcelMint(
