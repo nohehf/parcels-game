@@ -1,4 +1,5 @@
 import { useAccount } from "wagmi";
+import useEvents from "../hooks/useEvents";
 import usePlayer from "../hooks/usePlayer";
 import { formatAddress } from "../hooks/utils";
 import Res from "./Res";
@@ -7,6 +8,7 @@ interface Props {}
 
 const Player: React.FC<Props> = ({}) => {
   const [{ data, error, loading }, disconnect] = useAccount();
+  useEvents();
   const playerQuery = usePlayer();
   return (
     <div className="text-white flex  justify-end items-center font-almendra text-xl">

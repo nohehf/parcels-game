@@ -13,7 +13,7 @@ import { Parcel } from "../types/Composable";
 
 
 export enum EventType {
-  CommentAdded = "CommentAdded",
+  PlayerBalanceUpdated = "PlayerBalanceUpdated",
 }
 
 const useParcelContract = () => {

@@ -28,6 +28,8 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
         itemContractAddress = _deployItemContract();
     }
 
+    event PlayerBalanceUpdated(address add);
+
     ////////////////////////////////////////////////////////////
     /////////////////////// Public Data ////////////////////////
     ////////////////////////////////////////////////////////////
@@ -106,6 +108,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
         uint reward_to_mint = parcelStruct.productionRate*delta_t;
         rewardContractAddress.mint(msg.sender, reward_to_mint);
         _resetClaimTime(parcelStruct);
+        emit PlayerBalanceUpdated(msg.sender);
     }
     //////////////////// Item 
      function itemBuy(string memory _name) external {
@@ -113,6 +116,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
         require(item.price!=0, "This item doesn't exist yet");
         _burnRewardToken(item.price);
         _mintItem(item.tokenId);
+        emit PlayerBalanceUpdated(msg.sender);
     }
 
     function testTransfert(uint _tokenId, uint _destinationPosX, uint _destinationPosY) external {
