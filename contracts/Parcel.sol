@@ -5,14 +5,16 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 
 
 import "./RewardToken.sol";
 import "./ItemToken.sol";
 
-contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155Holder {
+import "./Base64.sol";
+
+
+contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
     using Counters for Counters.Counter;
     
     Counters.Counter internal _ParcelTokenIds;
@@ -34,6 +36,41 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
 
     ////////////////////////////////////////////////////////////
     /////////////////////// Public Data ////////////////////////
+    string public baseStorage;
+
+    function tokenURI(uint256 tokenId) override(ERC721) public view returns (string memory) {
+        uint[2] memory Pos = getPosFromId(tokenId);
+        uint posX = Pos[0];
+        uint posY = Pos[1];
+        ParcelStruct memory parcel = Board[posX][posY];
+        string memory json = Base64.encode(
+            bytes(
+                abi.encodePacked(
+                    '{"name": "', parcel.name, '",',
+                    '"image_data": "', getImageData(posX, posY, tokenId), '",',
+                    '"external_url": "https://zeus.blanchon.cc",',
+                    '"description": "Description",',
+                    '"animation_url": "', get3DData(posX, posY, tokenId), '",',
+                    '"attributes": [{"trait_type": "Speed", "value": ', Base64.uint2str(parcel.dna), '}',
+                    ']}'
+            ))
+        );
+        return string(abi.encodePacked('data:application/json;base64,', json));
+    }
+
+    function getImageData(uint posX, uint posY, uint tokenId) private view returns(string memory) {
+        uint ImageId = _getItemQuantity(posX, posY, tokenId);
+        return string(abi.encodePacked("https://zeus.blanchon.cc/dropshare/", Base64.uint2str(ImageId), ".jpeg"));
+    }
+
+    function get3DData(uint posX, uint posY, uint tokenId) private view returns(string memory) {
+        uint ImageId = _getItemQuantity(posX, posY, tokenId);
+        return string(abi.encodePacked("https://zeus.blanchon.cc/dropshare/", Base64.uint2str(ImageId), ".glb"));
+    }
+
+    function setBaseStorage(string memory _newBaseStorage) public onlyOwner {
+        baseStorage = _newBaseStorage;
+    }
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
 
@@ -76,7 +113,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
         return posToId[_posX][_posY];
     }
     // Get parcelTokenID to parcelPosition
-    function getPosFromId(uint _tokenId) external view returns(uint[2] memory) {
+    function getPosFromId(uint _tokenId) public view returns(uint[2] memory) {
         require(_exists(_tokenId), "LandHelper: this tokenId don't exist yet");
         return idToPos[_tokenId];
     }
@@ -223,7 +260,6 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
         posToId[_posX][_posY] = newItemId;
         idToPos[newItemId] = [_posX, _posY];
         _safeMint(msg.sender, newItemId);
-        _setTokenURI(newItemId, "https://ipf_link/{id}_{composable_ids}");
         _ParcelTokenIds.increment();
     }
     ////////////////////////////////////////////////////////////
@@ -267,12 +303,8 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC721URIStorage, ERC1155H
         super._beforeTokenTransfer(from, to, tokenId);
     }
 
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+    function _burn(uint256 tokenId) internal override(ERC721) {
         super._burn(tokenId);
-    }
-
-    function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
-        return super.tokenURI(tokenId);
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable, ERC1155Receiver) returns (bool) {
