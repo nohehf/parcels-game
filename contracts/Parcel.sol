@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 import "./RewardToken.sol";
 import "./ItemToken.sol";
 
-import "./Base64.sol";
+// import "./Base64.sol";
 
 
 contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
@@ -36,75 +36,75 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
 
     ////////////////////////////////////////////////////////////
     /////////////////////// Public Data ////////////////////////
-    string public baseStorage = "https://zeus.blanchon.cc/dropshare/";
-    string public externalURL = "https://zeus.blanchon.cc/";
+    // string public baseStorage = "https://zeus.blanchon.cc/dropshare/";
+    // string public externalURL = "https://zeus.blanchon.cc/";
 
-    function tokenURI(uint256 tokenId) override(ERC721) public view returns (string memory) {
-        uint[2] memory Pos = getPosFromId(tokenId);
-        uint posX = Pos[0];
-        uint posY = Pos[1];
-        ParcelStruct memory parcel = Board[posX][posY];
-        string memory json = Base64.encode(
-            bytes(
-                abi.encodePacked(
-                    '{"name": "', getName(posX, posY), '",',
-                    '"image_data": "', getImageData(posX, posY, tokenId), '",',
-                    '"external_url": "', getExternalURL(posX, posY, tokenId), '",',
-                    '"description": "', getDescription(posX, posY, tokenId), '",',
-                    '"animation_url": "', get3DData(posX, posY, tokenId), '",',
-                    '"attributes": [', getAttributes(posX, posY, tokenId), ']}'
-            ))
-        );
-        return string(abi.encodePacked('data:application/json;base64,', json));
-    }
+    // function tokenURI(uint256 tokenId) override(ERC721) public view returns (string memory) {
+    //     uint[2] memory Pos = getPosFromId(tokenId);
+    //     uint posX = Pos[0];
+    //     uint posY = Pos[1];
+    //     ParcelStruct memory parcel = Board[posX][posY];
+    //     string memory json = Base64.encode(
+    //         bytes(
+    //             abi.encodePacked(
+    //                 '{"name": "', getName(posX, posY), '",',
+    //                 '"image_data": "', getImageData(posX, posY, tokenId), '",',
+    //                 '"external_url": "', getExternalURL(posX, posY, tokenId), '",',
+    //                 '"description": "', getDescription(posX, posY, tokenId), '",',
+    //                 '"animation_url": "', get3DData(posX, posY, tokenId), '",',
+    //                 '"attributes": [', getAttributes(posX, posY, tokenId), ']}'
+    //         ))
+    //     );
+    //     return string(abi.encodePacked('data:application/json;base64,', json));
+    // }
 
-    function getAttributes(uint posX, uint posY, uint tokenId) private view returns(string memory) {
-        string memory attributesString = string(
-            bytes.concat(
-                abi.encodePacked(
-                '{"trait_type": "HUT", "value": ', Base64.uint2str(itemQuantity[posX][posY][1]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][1]), '},'
-                '{"trait_type": "FARM", "value": ', Base64.uint2str(itemQuantity[posX][posY][2]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][2]), '},'
-                ),
-                abi.encodePacked(
-                '{"trait_type": "CASTLE", "value": ', Base64.uint2str(itemQuantity[posX][posY][3]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][3]), '},'
-                '{"trait_type": "FENCE", "value": ', Base64.uint2str(itemQuantity[posX][posY][4]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][4]), '},'
-                ),
-                abi.encodePacked(
-                '{"trait_type": "MOAT", "value": ', Base64.uint2str(itemQuantity[posX][posY][5]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][5]), '},'
-                '{"trait_type": "MINE", "value": ', Base64.uint2str(itemQuantity[posX][posY][6]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][6]), '},'
-                ),
-                abi.encodePacked(
-                '{"trait_type": "PIT", "value": ', Base64.uint2str(itemQuantity[posX][posY][7]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][7]), '},'
-                '{"trait_type": "production_rate", "value": ', Base64.uint2str(getProductionRate(posX, posY)), ', "display_type" : "boost_number" }'
-                )
-            ));
-        return attributesString;
-    }
-    function getImageData(uint posX, uint posY, uint tokenId) private view returns(string memory) {
-        uint ImageId = _getItemQuantity(posX, posY, tokenId);
-        return string(abi.encodePacked(baseStorage, Base64.uint2str(ImageId), ".jpeg"));
-    }
+    // function getAttributes(uint posX, uint posY, uint tokenId) private view returns(string memory) {
+    //     string memory attributesString = string(
+    //         bytes.concat(
+    //             abi.encodePacked(
+    //             '{"trait_type": "HUT", "value": ', Base64.uint2str(itemQuantity[posX][posY][1]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][1]), '},'
+    //             '{"trait_type": "FARM", "value": ', Base64.uint2str(itemQuantity[posX][posY][2]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][2]), '},'
+    //             ),
+    //             abi.encodePacked(
+    //             '{"trait_type": "CASTLE", "value": ', Base64.uint2str(itemQuantity[posX][posY][3]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][3]), '},'
+    //             '{"trait_type": "FENCE", "value": ', Base64.uint2str(itemQuantity[posX][posY][4]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][4]), '},'
+    //             ),
+    //             abi.encodePacked(
+    //             '{"trait_type": "MOAT", "value": ', Base64.uint2str(itemQuantity[posX][posY][5]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][5]), '},'
+    //             '{"trait_type": "MINE", "value": ', Base64.uint2str(itemQuantity[posX][posY][6]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][6]), '},'
+    //             ),
+    //             abi.encodePacked(
+    //             '{"trait_type": "PIT", "value": ', Base64.uint2str(itemQuantity[posX][posY][7]), ', "orientation" : ', Base64.uint2str(itemOrientation[posX][posY][7]), '},'
+    //             '{"trait_type": "production_rate", "value": ', Base64.uint2str(getProductionRate(posX, posY)), ', "display_type" : "boost_number" }'
+    //             )
+    //         ));
+    //     return attributesString;
+    // }
+    // function getImageData(uint posX, uint posY, uint tokenId) private view returns(string memory) {
+    //     uint ImageId = _getItemQuantity(posX, posY, tokenId);
+    //     return string(abi.encodePacked(baseStorage, Base64.uint2str(ImageId), ".jpeg"));
+    // }
 
-    function get3DData(uint posX, uint posY, uint tokenId) private view returns(string memory) {
-        uint ImageId = _getItemQuantity(posX, posY, tokenId);
-        return string(abi.encodePacked(baseStorage, Base64.uint2str(ImageId), ".glb"));
-    }
+    // function get3DData(uint posX, uint posY, uint tokenId) private view returns(string memory) {
+    //     uint ImageId = _getItemQuantity(posX, posY, tokenId);
+    //     return string(abi.encodePacked(baseStorage, Base64.uint2str(ImageId), ".glb"));
+    // }
 
-    function getDescription(uint posX, uint posY, uint tokenId) private view returns(string memory) {
-        return "Parcel Game NFT";
-    }
+    // function getDescription(uint posX, uint posY, uint tokenId) private view returns(string memory) {
+    //     return "Parcel Game NFT";
+    // }
 
-    function getExternalURL(uint posX, uint posY, uint tokenId) private view returns(string memory) {
-        return externalURL;
-    }
+    // function getExternalURL(uint posX, uint posY, uint tokenId) private view returns(string memory) {
+    //     return externalURL;
+    // }
 
-    function setBaseStorage(string memory _newBaseStorage) public onlyOwner {
-        baseStorage = _newBaseStorage;
-    }
+    // function setBaseStorage(string memory _newBaseStorage) public onlyOwner {
+    //     baseStorage = _newBaseStorage;
+    // }
 
-    function setExternalURL(string memory _newExternalURL) public onlyOwner {
-        externalURL = _newExternalURL;
-    }
+    // function setExternalURL(string memory _newExternalURL) public onlyOwner {
+    //     externalURL = _newExternalURL;
+    // }
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
 
