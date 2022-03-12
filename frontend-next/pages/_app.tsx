@@ -21,8 +21,6 @@ const provider = providers.getDefaultProvider("http://localhost:8545");
 
 // const provider = providers.getDefaultProvider();
 
-
-
 // Create a react-query client
 const queryClient = new QueryClient({
   defaultOptions: {
