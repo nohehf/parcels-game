@@ -19,7 +19,7 @@ const Grid = (props: Props) => {
           return (
             <div key={i} className="flex">
               {col.map((parcel, j) => (
-                <div key={"" + i + j} className={"m-1"}>
+                <div key={"" + i + j} className={""}>
                   <GridParcel parcel={parcel}></GridParcel>
                 </div>
               ))}

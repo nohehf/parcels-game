@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Nav from "../../components/Nav";
 import ParcelMenu from "../../components/ParcelMenu";
 import Player from "../../components/Player";
@@ -15,6 +15,8 @@ import { useAccount } from "wagmi";
 import useParcelComposables from "../../hooks/useParcelComposables";
 import styles from "../../styles/clouds.module.css";
 import { useParcelEvents } from "../../hooks/useEvents";
+import Grid from "../../components/Grid";
+import { action } from "../../types/Composable";
 
 const parcel = {
   income: 100,
@@ -52,23 +54,26 @@ const Parcel: NextPage = (params) => {
   const parcel_contract = useParcelContract();
 
   useParcelEvents(posX, posY);
+  const [menu, setMenu] = useState(action.REMOVE);
 
   return (
-    <div className={styles.cloud} id="cloud_background">
-      <div className="w-full h-full">
+    <div className={styles.cloud} id="cloud_background w-full">
+      <div className="w-1/2 max-h-full flex-col flex">
         <Viewer3dNoSSR file="/parcel3d.glb" />
       </div>
-      <div className="max-w-[700px] bg-white backdrop-blur-md bg-opacity-50 text-gray-700 overflow-x-auto min-w-[350px]">
-        <div className="">
-          <hr />
+      <div className="bg-white backdrop-blur-md bg-opacity-75 text-gray-700 overflow-hidden rounded-xl my-3 mr-3 w-1/2">
+        <div className="h-[25%]">
+          <ParcelInfo
+            isOwner={isOwner()}
+            parcelData={parcel.data}
+            claim={claim}
+          ></ParcelInfo>
+          <MenuSelect menu={menu} setMenu={setMenu} />
         </div>
-        <ParcelInfo
-          isOwner={isOwner()}
-          parcelData={parcel.data}
-          claim={claim}
-        ></ParcelInfo>
-        <hr />
-        <ParcelMenu isOwner={isOwner()} posX={posX} posY={posY} />
+
+        <div className="overflow-auto h-[73%]">
+          <ParcelMenu menu={menu} isOwner={isOwner()} posX={posX} posY={posY} />
+        </div>
       </div>
     </div>
   );
@@ -82,7 +87,7 @@ interface Props {
 const ParcelInfo: React.FC<Props> = ({ isOwner, parcelData, claim }) => {
   if (isOwner) {
     return (
-      <div className="flex justify-between p-2 flex-wrap ">
+      <div className="flex justify-between m-2 p-2 px-4 rounded-xl flex-wrap bg-white">
         <div className="flex flex-col justify-start">
           <h2 className="font-unifraktur text-2xl text-left">
             {parcelData?.name}
@@ -91,7 +96,7 @@ const ParcelInfo: React.FC<Props> = ({ isOwner, parcelData, claim }) => {
         </div>
 
         <div className="font-almendra text-lg flex flex-col items-end">
-          <div>Last claim: {parcelData?.lastClaimTime.toLocaleString()}</div>
+          {/* <div>Last claim: {parcelData?.lastClaimTime.toLocaleString()}</div> */}
           <Res
             amount={getClaimableAmount(
               parcelData?.productionRate,
@@ -117,6 +122,49 @@ const ParcelInfo: React.FC<Props> = ({ isOwner, parcelData, claim }) => {
       </div>
     );
   }
+};
+
+const MenuSelect: React.FC<{
+  menu: action;
+  setMenu: Dispatch<SetStateAction<action>>;
+}> = ({ menu, setMenu }) => {
+  const menuStyle = (Action: action) => {
+    const base = "bg-white rounded-xl px-5 py-0.5";
+    if (menu === Action) {
+      if (Action === action.REMOVE) {
+        return base + " outline-red-400 outline outline-4";
+      } else if (Action === action.BUILD) {
+        return base + " outline-purple-400 outline outline-4";
+      } else {
+        return base + " outline-orange-400 outline outline-4";
+      }
+    } else {
+      return base;
+    }
+  };
+
+  return (
+    <div className="flex justify-around font-unifraktur text-xl">
+      <button
+        onClick={() => setMenu(action.REMOVE)}
+        className={menuStyle(action.REMOVE)}
+      >
+        Parcel
+      </button>
+      <button
+        onClick={() => setMenu(action.BUILD)}
+        className={menuStyle(action.BUILD)}
+      >
+        Inventory
+      </button>
+      <button
+        onClick={() => setMenu(action.CRAFT)}
+        className={menuStyle(action.CRAFT)}
+      >
+        Craft
+      </button>
+    </div>
+  );
 };
 
 export default Parcel;

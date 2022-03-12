@@ -34,7 +34,6 @@ const RemoveMenu: React.FC<Props> = ({ isOwner, posX, posY }) => {
   };
   return (
     <div className="text-gray-700 w-full">
-      <h2 className="font-unifraktur text-2xl mb-1">On parcel</h2>
       <div className="flex flex-wrap justify-between">
         {parcelComposables.data &&
           parcelComposables.data.map((item, index) => {
@@ -50,7 +49,9 @@ const RemoveMenu: React.FC<Props> = ({ isOwner, posX, posY }) => {
             );
           })}
         {parcelComposables.data?.length === 0 && (
-          <div className="m-auto">Nothing yet</div>
+          <div className="my-10 text-center font-almendra text-xl m-auto">
+            Nothing on your parcel... <br /> Try building someting on it !
+          </div>
         )}
       </div>
     </div>

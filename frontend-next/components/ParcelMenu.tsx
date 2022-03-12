@@ -14,21 +14,24 @@ import InventoryMenu from "./InventoryMenu";
 import RemoveMenu from "./RemoveMenu";
 
 interface Props {
+  menu: action;
   isOwner: boolean;
   posX: number;
   posY: number;
 }
 
-const ParcelMenu: React.FC<Props> = ({ isOwner, posX, posY }) => {
+const ParcelMenu: React.FC<Props> = ({ menu, isOwner, posX, posY }) => {
   const [{ data, error, loading }, disconnect] = useAccount();
   if (data?.address) {
     return (
-      <div className="p-2  text-black flex flex-wrap justify-center">
-        <RemoveMenu isOwner={isOwner} posX={posX} posY={posY} />
-        <hr className="w-full" />
-        <InventoryMenu isOwner={isOwner} posX={posX} posY={posY} />
-        <hr className="w-full" />
-        <CraftMenu isOwner={isOwner} />
+      <div className="p-2 flex flex-wrap justify-center">
+        {menu === action.REMOVE && (
+          <RemoveMenu isOwner={isOwner} posX={posX} posY={posY} />
+        )}
+        {menu === action.BUILD && (
+          <InventoryMenu isOwner={isOwner} posX={posX} posY={posY} />
+        )}
+        {menu === action.CRAFT && <CraftMenu isOwner={isOwner} />}
       </div>
     );
   } else {

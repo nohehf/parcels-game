@@ -2,7 +2,7 @@
 export const getClaimableAmount = (productionRate: number | undefined, lastClaimTime: number | undefined) => {
   if(productionRate === undefined|| lastClaimTime === undefined)
     return 0
-  return new Date(lastClaimTime)
+  return 100
   //return (new Date(Date.now()).getTime() - new Date(lastClaimTime).getTime()) 
   //return Math.round(((Date.now() - lastClaimTime))) * productionRate / 6000;
 }

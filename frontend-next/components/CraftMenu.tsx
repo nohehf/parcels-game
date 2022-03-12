@@ -29,8 +29,7 @@ const CraftMenu: React.FC<Props> = ({ isOwner }) => {
   const composables = useComposables();
   return (
     <div className="text-gray-700 w-full">
-      <h2 className="font-unifraktur text-2xl mb-1">Craft</h2>
-      <div className="flex flex-wrap justify-between">
+      <div className="flex flex-wrap justify-around">
         {composables.data &&
           composables.data.map((item, index) => {
             return (
