@@ -6,6 +6,11 @@ import ParcelMenu from "../components/ParcelMenu";
 import { useState } from "react";
 import { Parcel } from "../types/Composable";
 import Res from "../components/Res";
+import { formatAddress } from "../hooks/utils";
+import Address from "../components/Address";
+import { useAccount } from "wagmi";
+import Link from "next/link";
+import IcOutlineRemoveRedEye from "../components/IcOutlineRemoveRedEye";
 
 const Home: NextPage = () => {
   const [selected, setSelectd] = useState<null | Parcel>(null);
@@ -22,19 +27,36 @@ const Home: NextPage = () => {
 };
 
 const SelectedMenu: React.FC<{ parcel: Parcel | null }> = ({ parcel }) => {
+  const [{ data, error, loading }, disconnect] = useAccount();
   if (parcel === null) {
     return <div>Select a parcel in the grid !</div>;
   }
   return (
     <div className="bg-white backdrop-blur-md bg-opacity-75 text-gray-700 overflow-hidden rounded-xl mt-2 mb-3 mr-3">
-      <div className="flex flex-col justify-start bg-white rounded-xl m-2 p-2 px-4">
-        <div>
+      <div className="flex justify-between  bg-white rounded-xl m-2 p-2 px-4">
+        <div className="flex-col flex justify-between">
           <h2 className="font-unifraktur text-2xl text-left">{parcel?.name}</h2>
           <Res amount={parcel?.productionRate || 0}>/day</Res>
         </div>
 
-        <div>
-          <div>owned by: {parcel.owner}</div>
+        <div className="flex flex-col items-end justify-between text-black">
+          <span className="text-black">
+            <Address
+              address={parcel.owner}
+              me={data?.address === parcel.owner}
+            />
+          </span>
+          <button>
+            <Link href={"/parcel/" + parcel.posX + "," + parcel.posY}>
+              <div className="font-almendra flex items-center bg-lime-400 px-2 py-0.5 rounded-xl">
+                <span className="text-lg mr-1">
+                  <IcOutlineRemoveRedEye />
+                </span>
+
+                <span className="text-sm">Show parcel</span>
+              </div>
+            </Link>
+          </button>
         </div>
       </div>
     </div>

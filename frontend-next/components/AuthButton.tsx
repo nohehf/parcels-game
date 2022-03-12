@@ -2,7 +2,7 @@ import * as React from "react";
 import { useAccount, useConnect } from "wagmi";
 import toast from "react-hot-toast";
 
-const AuthButton: React.FunctionComponent<any> = (props) => {
+const AuthButton: React.FunctionComponent<{}> = (props) => {
   const [{ data, error, loading }, connect] = useConnect();
   const [accountQuery] = useAccount();
 
@@ -22,12 +22,12 @@ const AuthButton: React.FunctionComponent<any> = (props) => {
       //test actuel
       <>
         <div>Connected: {data.connected.toString()}</div>
-
         {data.connectors.map((x) => (
           <button key={x.name} onClick={() => connect(x)}>
             {x.name}
           </button>
         ))}
+        {/* //{" "} */}
       </>
       //code original :
 
