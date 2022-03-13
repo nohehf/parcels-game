@@ -39,7 +39,7 @@ const queryClient = new QueryClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiProvider provider={provider}>
+    <WagmiProvider autoConnect provider={provider}>
       <QueryClientProvider client={queryClient}>
         <div className={styles.cloudBg}>
           <div className="h-[7%]">
