@@ -27,13 +27,12 @@ const AuthButton: React.FunctionComponent<{}> = (props) => {
             {x.name}
           </button>
         ))}
-        {/* //{" "} */}
       </>
       //code original :
 
       // <button
       //   onClick={() => {
-      //     connect(connectQuery.data.connectors[0]);
+      //     connect(data.connectors[0]);
       //   }}
       // >
       //   Sign In
