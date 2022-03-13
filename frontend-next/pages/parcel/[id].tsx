@@ -60,8 +60,8 @@ const Parcel: NextPage = (params) => {
     <div className={styles.container}>
       <div className="w-1/2 max-h-full flex-col flex">
         {parcel.data?.metadata.animation_url && (
-          //<Viewer3dNoSSR file={parcel.data?.metadata.animation_url} />
-          <Viewer3dNoSSR file={"/parcel3d.glb"} />
+          <Viewer3dNoSSR file={parcel.data?.metadata.animation_url} />
+          // <Viewer3dNoSSR file={"/parcel3d.glb"} />
         )}
       </div>
       <div className="bg-white backdrop-blur-md bg-opacity-75 text-gray-700 overflow-hidden rounded-xl mt-2 mb-3 mr-3 w-1/2">
