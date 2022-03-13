@@ -31,7 +31,9 @@
   "license": "MIT",
   "dependencies": {
     "@nomiclabs/hardhat-etherscan": "^3.0.3",
+    "files-from-path": "^0.2.4",
     "fs-extra": "^10.0.0",
+    "nft.storage": "^6.0.2",
     "react-query": "^3.34.16",
     "web3modal": "^1.9.5"
   }
