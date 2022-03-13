@@ -55,9 +55,11 @@ const useParcelContract = () => {
       dna: parseInt(rawParcel[4]),
       lastClaimTime: parseInt(rawParcel[5])*1000,
       productionRate: parseInt(rawParcel[6]),
-      owner: ""
+      owner: "",
+      metadata: undefined
     }
     parcel.owner = await contract.ownerOf(parcel.tokenId);
+    parcel.metadata = await getTokenUri(parcel.tokenId);
     return parcel
   };
 
@@ -123,6 +125,11 @@ const useParcelContract = () => {
   const placeComposable = async (tokenId: number, posX: number, posY: number) => {
     return await contract.testTransfert(tokenId, posX, posY)
   }
+
+  const getTokenUri = async (tokenId: number) => {
+    const _b64 = await contract.tokenURI(tokenId);
+    return JSON.parse(atob(_b64.substring(29)));
+  }  
 
   return {
     contract,

@@ -56,4 +56,5 @@ export interface Parcel {
   productionRate: number; //Parcel production_rate : $10Res/timestamp
 
   owner: string;
+  metadata: any;
 }

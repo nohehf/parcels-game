@@ -48,11 +48,11 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
             bytes(
                 abi.encodePacked(
                     '{"name": "', Board[posX][posY].name, '",',
-                    '"image_data": "', getURIData1(posX, posY), '.jpeg",',
+                    '"image_data": "', getURIData(posX, posY), '.png",',
                     // '"external_url": "', getExternalURL(posX, posY, tokenId), '",',
                     // '"description": "', getDescription(posX, posY, tokenId), '",',
-                    '"animation_url": "', getURIData1(posX, posY), '.glb",'
-                    // '"attributes": [', getAttributes(posX, posY, tokenId), ']}'
+                    '"animation_url": "', getURIData(posX, posY), '.glb"}'
+                    //'"attributes": [', getAttributes(posX, posY, tokenId), ']}'
             ))
         );
         return string(abi.encodePacked('data:application/json;base64,', json));
@@ -87,7 +87,7 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
     function getURIData(uint posX, uint posY) private view returns(string memory) {
         string memory MAP_ID1 = getURIData1(posX, posY);
         string memory MAP_ID2 = getURIData2(posX, posY);
-        return string(abi.encodePacked(baseStorage, MAP_ID1, MAP_ID1));
+        return string(abi.encodePacked(baseStorage, MAP_ID1, MAP_ID2));
     }
     function getURIData1(uint posX, uint posY) private view returns(string memory) {
         uint8 HUT_ID = _getItemQuantity(posX, posY, 1);

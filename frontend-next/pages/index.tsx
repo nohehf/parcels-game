@@ -21,6 +21,7 @@ const Home: NextPage = () => {
       </div>
       <div className="w-1/2">
         <SelectedMenu parcel={selected} />
+        {selected && JSON.stringify(selected.metadata)}
       </div>
     </div>
   );

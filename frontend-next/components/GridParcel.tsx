@@ -47,7 +47,7 @@ const GridParcel: React.FC<Props> = ({ parcel, selected, setSelected }) => {
           transform: `rotate(${randomRotation()}deg) ${
             isSelected() ? "scale(1.2)" : ""
           }`,
-          backgroundImage: 'url("./parcel_top.png")',
+          backgroundImage: `url("${parcel?.metadata.image_data}")`,
           backgroundSize: "cover",
         }}
       ></div>
