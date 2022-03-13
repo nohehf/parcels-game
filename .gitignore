@@ -7,4 +7,4 @@ frontend/src/hardhat
 frontend-next/src/hardhat
 
 #address settings
-frontend-next/settings.ts
+#frontend-next/settings.ts
