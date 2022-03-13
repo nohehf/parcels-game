@@ -251,6 +251,17 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         return itemContractAddress.balanceOf(_wallet, _tokenId);
     }
 
+    function itemRemove(uint _posX, uint _posY, uint _itemId) public {
+        require(_exists(posToId[_posX][_posY]), "ParcelFarming: this tokenId don't exist yet");
+        require(_isApprovedOrOwner(msg.sender, posToId[_posX][_posY]), "ParcelHelper: msg.sender must be approved or owner");
+        require(itemQuantity[_posX][_posY][_itemId]>=1, "You must have at least 1 item on this land to remove it");
+        ItemToken.ItemStruct memory item = itemContractAddress.getItemInfo(itemContractAddress.getNameToTokenId(_itemId));
+        itemContractAddress.safeTransferFrom(address(this), msg.sender, _itemId, 1, "");
+        Board[_posX][_posY].productionRate = Board[_posX][_posY].productionRate-item.boost;
+        itemQuantity[_posX][_posY][item.tokenId]--;
+        KindQuantity[_posX][_posY][item.kind]--;
+    }
+
 
     
     ////////////////////////////////////////////////////////////
@@ -438,7 +449,8 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         require(_isItemMaximumPolicyRespected(posX, posY, item.kind, item.tokenId), "Not enough space on this land");
         itemQuantity[posX][posY][item.tokenId]++;
         // itemOrientation[posX][posY][item.tokenId] = 45; //TODO: Randomize
-        KindQuantity[posX][posY][item.kind]++;    
+        KindQuantity[posX][posY][item.kind]++;
+        Board[posX][posY].productionRate = Board[posX][posY].productionRate+item.boost;
         return bytes4(keccak256("onERC1155Received(address,address,uint256,uint256,bytes)"));
     }
     
