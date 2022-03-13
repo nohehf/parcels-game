@@ -100,12 +100,12 @@ const ParcelInfo: React.FC<Props> = ({ isOwner, parcelData, claim }) => {
 
         <div className="font-almendra text-lg flex flex-col items-end">
           {/* <div>Last claim: {parcelData?.lastClaimTime.toLocaleString()}</div> */}
-          <Res
+          {/* <Res
             amount={getClaimableAmount(
               parcelData?.productionRate,
               parcelData?.lastClaimTime
             )}
-          ></Res>
+          ></Res> */}
           <button
             className="bg-lime-500 rounded-xl px-2 py-0.5 font-unifraktur text-white mt-1"
             onClick={claim}

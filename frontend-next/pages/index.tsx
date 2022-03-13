@@ -11,6 +11,7 @@ import Address from "../components/Address";
 import { useAccount } from "wagmi";
 import Link from "next/link";
 import IcOutlineRemoveRedEye from "../components/IcOutlineRemoveRedEye";
+import useParcelGrid from "../hooks/useParcelGrid";
 
 const Home: NextPage = () => {
   const [selected, setSelectd] = useState<null | Parcel>(null);
@@ -23,6 +24,7 @@ const Home: NextPage = () => {
         <SelectedMenu parcel={selected} />
         {selected && JSON.stringify(selected.metadata)}
       </div>
+      {/* <OwnedParcels /> */}
     </div>
   );
 };
@@ -60,6 +62,18 @@ const SelectedMenu: React.FC<{ parcel: Parcel | null }> = ({ parcel }) => {
           </button>
         </div>
       </div>
+    </div>
+  );
+};
+
+interface Props {}
+const OwnedParcels: React.FC<Props> = ({}) => {
+  const parcelGrid = useParcelGrid();
+  return (
+    <div className="w-5 h-5">
+      {parcelGrid.data?.map((parcel) => {
+        <div className="w-4 h-4 bg-red-500">aaa</div>;
+      })}
     </div>
   );
 };
