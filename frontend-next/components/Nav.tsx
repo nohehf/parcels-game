@@ -1,5 +1,7 @@
 import Link from "next/link";
+import ReactAudioPlayer from "react-audio-player";
 import { useAccount } from "wagmi";
+import AudioPlayer from "./AudioPlayer";
 import AuthButton from "./AuthButton";
 import IcBaselineGridOn from "./IcBaselineGridOn";
 import IcRoundHome from "./IcRoundHome";
@@ -20,6 +22,7 @@ const Nav: React.FC<Props> = ({}) => {
           <Link href={"/"}>
             <IcBaselineGridOn />
           </Link>
+          <AudioPlayer />
         </div>
       </div>
 
