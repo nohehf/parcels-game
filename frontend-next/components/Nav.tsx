@@ -18,10 +18,12 @@ const Nav: React.FC<Props> = ({}) => {
             <IcRoundHome />
           </Link>
         </div>
-        <div className="bg-blue-900 bg-opacity-40 hover:bg-opacity-50 p-1 px-2 rounded-xl">
+        <div className="bg-blue-900 bg-opacity-40 hover:bg-opacity-50 p-1 px-2 mr-3 rounded-xl">
           <Link href={"/"}>
             <IcBaselineGridOn />
           </Link>
+        </div>
+        <div className="bg-blue-900 bg-opacity-40 hover:bg-opacity-50 flex px-2 rounded-xl">
           <AudioPlayer />
         </div>
       </div>
