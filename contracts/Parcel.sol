@@ -129,7 +129,8 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
                 Base64.uint2str(DOG_ID), 
                 Base64.uint2str(CHICKENS_ID), 
                 Base64.uint2str(ETANG_ID), 
-                Base64.uint2str(BENCH_ID)
+                Base64.uint2str(BENCH_ID),
+                Base64.uint2str(0)
                 ));
         return MAP_ID2;
     }
