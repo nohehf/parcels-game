@@ -70,7 +70,11 @@ const ComposableItem: React.FC<Props> = ({
           ></ComposableButton>
         </div>
       </div>
-      <img src={`/castle.png`} alt="" className="h-[120px]" />
+      <img
+        src={`/composables/${composable.name.toLowerCase()}.png`}
+        alt=""
+        className="h-[120px]"
+      />
     </div>
   );
 };
