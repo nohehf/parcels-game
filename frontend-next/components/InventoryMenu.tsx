@@ -33,7 +33,7 @@ const InventoryMenu: React.FC<Props> = ({ isOwner, posX, posY }) => {
   };
   return (
     <div className="text-gray-700 w-full">
-      <div className="flex flex-wrap justify-between">
+      <div className="flex flex-wrap justify-around">
         {inventory.data?.map((item, index) => {
           return (
             <ComposableItem
