@@ -37,8 +37,11 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
 
     ////////////////////////////////////////////////////////////
     /////////////////////// Public Data ////////////////////////
-    string public baseStorage = "https://nftstorage.link/ipfs/bafybeib3n5b5e7ncs4rxsekrb5m56mcunlktpvf4sqcskfapmgtdev5rqm/renders/";
-    string public externalURL = "https://nftstorage.link/ipfs/bafybeib3n5b5e7ncs4rxsekrb5m56mcunlktpvf4sqcskfapmgtdev5rqm";
+    //string public baseStorage = "https://nftstorage.link/ipfs/bafybeib3n5b5e7ncs4rxsekrb5m56mcunlktpvf4sqcskfapmgtdev5rqm/renders/";
+    //string public baseStorage = "https://nftstorage.link/ipfs/bafybeib3n5b5e7ncs4rxsekrb5m56mcunlktpvf4sqcskfapmgtdev5rqm/renders/";
+    
+    string public externalURL = "https://nftstorage.link/ipfs/bafybeih236gqlywilmkwlqvotdsf4nvrd35u3rg33c6gx7vv5onducfxai/assets/";
+    string public baseStorage = "https://nftstorage.link/ipfs/bafybeih236gqlywilmkwlqvotdsf4nvrd35u3rg33c6gx7vv5onducfxai/assets/";
 
     function tokenURI(uint256 tokenId) override(ERC721) public view returns (string memory) {
         uint[2] memory Pos = getPosFromId(tokenId);
