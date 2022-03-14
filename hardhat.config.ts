@@ -64,6 +64,14 @@ const config: HardhatUserConfig = {
       accounts: {
         mnemonic: `${test_mnemonic}`,
       }
+    },
+    optkov: {
+      url: `https://opt-kovan.g.alchemy.com/v2/he91GlpO7vvTAqNaBX4iE2qU5a5MblVp`,
+      gasPrice: "auto",
+      gas: "auto",
+      accounts: {
+        mnemonic: `${test_mnemonic}`,
+      }
     }
     // hardhat: {
     //   accounts: [
