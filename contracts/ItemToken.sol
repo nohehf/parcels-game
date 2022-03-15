@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC1155/presets/ERC1155PresetMinterPauser.
 
 contract ItemToken is ERC1155PresetMinterPauser {
 
-    constructor() ERC1155PresetMinterPauser("https://ipfs/{id}/dna}") {
+    constructor() ERC1155PresetMinterPauser("https://nftstorage.link/ipfs/bafybeiabw5fdgshkmd4edq6zdyx5nlnyyqeiea3zb2c2htnbakymrdqvjq/items/}") {
         //addItemToShop(tokenId, name, kind, level, price, boost, maximum)
         addItemToShop(1, "HUT", 1, 1, 100, 100, 0);             // B.House          1_______________
         addItemToShop(2, "FARM", 1, 2, 200, 200, 0);            // B.Ferme          _1______________

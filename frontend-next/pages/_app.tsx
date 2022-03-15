@@ -12,8 +12,8 @@ import { providers } from "ethers";
 import styles from "../styles/clouds.module.css";
 
 // Provider that will be used when no wallet is connected (aka no signer)
-const provider = providers.getDefaultProvider("http://localhost:8545");
-// const provider = providers.getDefaultProvider('rinkeby');
+// const provider = providers.getDefaultProvider("http://localhost:8545");
+const provider = providers.getDefaultProvider();
 // const provider = new providers.getDefaultProvider('optimism-kovan');
 // const provider = new providers.InfuraProvider("optimism-kovan", "6719e73a821848e7b94701e9fa5590fa");
 // const provider = new providers.AlchemyProvider("optimism-kovan");
@@ -38,11 +38,11 @@ const queryClient = new QueryClient({
     },
   },
   queryCache: new QueryCache({
-    onError: () => {
-      toast.error(
-        "Network Error: Ensure MetaMask is connected to the same network that your contract is deployed to."
-      );
-    },
+    // onError: () => {
+    //   toast.error(
+    //     "Network Error: Ensure MetaMask is connected to the same network that your contract is deployed to."
+    //   );
+    // },
   }),
 });
 
