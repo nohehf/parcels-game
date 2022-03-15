@@ -40,8 +40,8 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
     //string public baseStorage = "https://nftstorage.link/ipfs/bafybeib3n5b5e7ncs4rxsekrb5m56mcunlktpvf4sqcskfapmgtdev5rqm/renders/";
     //string public baseStorage = "https://nftstorage.link/ipfs/bafybeib3n5b5e7ncs4rxsekrb5m56mcunlktpvf4sqcskfapmgtdev5rqm/renders/";
     
-    string public externalURL = "https://nftstorage.link/ipfs/bafybeih236gqlywilmkwlqvotdsf4nvrd35u3rg33c6gx7vv5onducfxai/assets/";
-    string public baseStorage = "https://nftstorage.link/ipfs/bafybeih236gqlywilmkwlqvotdsf4nvrd35u3rg33c6gx7vv5onducfxai/assets/";
+    string public externalURL = "https://nftstorage.link/ipfs/bafybeiabw5fdgshkmd4edq6zdyx5nlnyyqeiea3zb2c2htnbakymrdqvjq/assets/";
+    string public baseStorage = "https://nftstorage.link/ipfs/bafybeiabw5fdgshkmd4edq6zdyx5nlnyyqeiea3zb2c2htnbakymrdqvjq/assets/";
 
     function tokenURI(uint256 tokenId) override(ERC721) public view returns (string memory) {
         uint[2] memory Pos = getPosFromId(tokenId);
@@ -103,7 +103,8 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         uint8 WINDMILL_ID = _getItemQuantity(posX, posY, 8);
 
         string memory MAP_ID1 = string(
-            abi.encodePacked(Base64.uint2str(HUT_ID),
+            abi.encodePacked(
+                Base64.uint2str(HUT_ID),
                 Base64.uint2str(FARM_ID),
                 Base64.uint2str(CASTLE_ID), 
                 Base64.uint2str(FENCE_ID),
@@ -125,15 +126,15 @@ contract Parcel is Ownable, ERC721, ERC721Enumerable, ERC1155Holder {
         uint8 BENCH_ID = _getItemQuantity(posX, posY, 16);
 
         string memory MAP_ID2 = string(
-            abi.encodePacked(Base64.uint2str(DEFENCE_TOWER_ID),
+            abi.encodePacked(
+                Base64.uint2str(DEFENCE_TOWER_ID),
                 Base64.uint2str(TENT_ID),
-                Base64.uint2str(CART_ID), 
-                Base64.uint2str(CAT_ID), 
-                Base64.uint2str(DOG_ID), 
-                Base64.uint2str(CHICKENS_ID), 
-                Base64.uint2str(ETANG_ID), 
-                Base64.uint2str(BENCH_ID),
-                Base64.uint2str(0)
+                Base64.uint2str(0), //Base64.uint2str(CART_ID), 
+                Base64.uint2str(0), //Base64.uint2str(CAT_ID), 
+                Base64.uint2str(0), //Base64.uint2str(DOG_ID), 
+                Base64.uint2str(0), //Base64.uint2str(CHICKENS_ID), 
+                Base64.uint2str(0), //Base64.uint2str(ETANG_ID), 
+                Base64.uint2str(0) //Base64.uint2str(BENCH_ID),
                 ));
         return MAP_ID2;
     }

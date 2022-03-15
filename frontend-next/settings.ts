@@ -1,4 +1,5 @@
-export const parcelContractAddress = "0x0cB618FFB2666d8D412A21f995DD8bcFbf0F9079" 
-export const itemsContractAddress = "0xCab7Fe49b7135F85b822CA49878BAccb2D88B02a" 
-export const resContractAddress = "0x11f0f387c29F0e4944C5F363F7802F7ddbb5808c"
+export const parcelContractAddress = "0xb7278A61aa25c888815aFC32Ad3cC52fF24fE575" 
+export const itemsContractAddress = "0x37B37064d97eADAcc4d7A0cbC673b5C2932b673c" 
+export const resContractAddress = "0x9FA5072032B7a7DCc49533401cec1C47bfcf350d"
 export const gridSize = [5,5]
+

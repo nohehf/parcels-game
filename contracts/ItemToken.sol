@@ -17,12 +17,12 @@ contract ItemToken is ERC1155PresetMinterPauser {
         addItemToShop(8, "WINDMILL", 3, 2, 200, 200, 1);        // Moulin           _______1________
         addItemToShop(9, "DEFENCE_TOWER", 3, 2, 200, 200, 1);   // Tour carré       ________1_______
         addItemToShop(10, "TENT", 3, 2, 200, 200, 1);           // D.Tente          _________1______
-        addItemToShop(11, "CART", 3, 2, 200, 200, 1);           // Chariot          __________1_____
-        addItemToShop(12, "CAT", 3, 2, 200, 200, 1);            // Animaux/Chat     ___________1____
-        addItemToShop(13, "DOG", 3, 2, 200, 200, 1);            // Animaux/Chient   ____________1___
-        addItemToShop(14, "CHICKENS", 3, 2, 200, 200, 1);       // Animaux/Poule    _____________1__
-        addItemToShop(15, "ETANG", 3, 2, 200, 200, 1);          // Etang            ______________1_
-        addItemToShop(16, "BENCH", 3, 2, 200, 200, 1);          // Banc             _______________1
+        // addItemToShop(11, "CART", 3, 2, 200, 200, 1);           // Chariot          __________1_____
+        // addItemToShop(12, "CAT", 3, 2, 200, 200, 1);            // Animaux/Chat     ___________1____
+        // addItemToShop(13, "DOG", 3, 2, 200, 200, 1);            // Animaux/Chient   ____________1___
+        // addItemToShop(14, "CHICKENS", 3, 2, 200, 200, 1);       // Animaux/Poule    _____________1__
+        // addItemToShop(15, "ETANG", 3, 2, 200, 200, 1);          // Etang            ______________1_
+        // addItemToShop(16, "BENCH", 3, 2, 200, 200, 1);          // Banc             _______________1
     }
 
     event PlayerInventoryUpdated(address add);
